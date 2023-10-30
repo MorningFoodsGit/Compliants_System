@@ -1,0 +1,44 @@
+﻿@model WebApplication2.Models.Stock
+
+<!-- ////////////////////////////////////////////////////////////////////////////-->
+<div class="app-content content container-fluid">
+    <div class="content-wrapper">
+        <div class="content-header row">
+        </div>
+        <div class="content-body">
+            <div class="col-md-8 offset-md-2 col-lg-6 offset-lg-3">
+                <div class="px-2 py-3 row mb-0 mt-3">
+                    
+                    <fieldset class="form-group position-relative">
+                        <form asp-controller="ProductSearch" asp-action="Search" data-ajax="true" data-ajax-method="POST" data-ajax-update="#searchResults">
+                            <div class="form-group">
+                                <label for="query">Search Product</label>
+                                <input type="text" class="form-control form-control-lg input-lg" id="query" name="query" placeholder="Search Product...">
+                            </div>
+                            <button type="submit" class="btn btn-primary"><i class="icon-ios-search-strong"></i>Search Product</button>
+                        
+                        <div class="form-control-position">
+                            <i class="icon-microphone2 font-medium-4"></i>
+                        </div>
+                        </form>
+                    </fieldset>  
+                    <div class="row py-1">
+                        <div class="text-xs-center">
+                            <a href="#" class="btn btn-social-icon mr-1 mb-1 btn-outline-facebook"><span class="icon-facebook3"></span></a>
+                            <a href="#" class="btn btn-social-icon mr-1 mb-1 btn-outline-twitter"><span class="icon-twitter3"></span></a>
+                            <a href="#" class="btn btn-social-icon mr-1 mb-1 btn-outline-linkedin"><span class="icon-linkedin3 font-medium-4"></span></a>
+                            <a href="#" class="btn btn-social-icon mr-1 mb-1 btn-outline-github"><span class="icon-github font-medium-4"></span></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+    
+<div>
+    
+</div>
+
+<div id="searchResults"></div>

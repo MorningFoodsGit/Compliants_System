@@ -1,0 +1,605 @@
+﻿@using WebApplication2.Views.cmplnt_base;
+@model PaginatedList<WebApplication2.Models.cmplnt_base>
+
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_layout.cshtml";
+}
+
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title"><i class="icon-file-text"></i> View Complaint</h4>
+            <a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
+            <div class="heading-elements">
+                <ul class="list-inline mb-0">
+                    <li><a data-action="reload"><i class="icon-reload"></i></a></li>
+                    <li><a data-action="expand"><i class="icon-expand2"></i></a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="card-block">
+                <p> @Html.ActionLink("Create New Complaint", "Create", "cmplnt_base", null, new { @class = "btn btn-success mr-1", id = "btnGoBack" })</p>
+
+                <div class="row">
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                            @using (Html.BeginForm())
+                            {
+                                <p>
+                                    Search Complaints: @Html.TextBox("SearchString")
+                                    <input type="submit" value="Advanced Search" placeholder="Search"/>
+                                </p>
+                            }
+                        </li>
+                        <div class="row col-md-3 offset-md-6">
+                        <li class="nav-item">
+                            <a class=".col-md-3 .offset-md-3" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                                Filter <i class="icon-filter"></i>
+                            </a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]" aria-controls="dropdown2" aria-expanded="true">By order Accending</a>
+                                <a class="dropdown-item" asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]" aria-controls="dropdown2" aria-expanded="true">By order Decending</a>
+                                <a class="dropdown-item" asp-action="Index" asp-route-sortOrder="@ViewData["RetailerSortParm"]" aria-controls="dropdown2" aria-expanded="true">By order Retailer</a>
+                                <a class="dropdown-item" asp-action="Index" asp-route-sortOrder="@ViewData["SiteSortParm"]" aria-controls="dropdown2" aria-expanded="true">By order Site</a>
+                                <a class="dropdown-item" asp-action="Index" asp-route-sortOrder="@ViewData["ProductCategorySortParm"]" aria-controls="dropdown2" aria-expanded="true">By order Product Catergory</a>
+                                <a class="dropdown-item" asp-action="Index" asp-route-sortOrder="@ViewData["ComplaintCategorySortParm"]" aria-controls="dropdown2" aria-expanded="true">By order Compliant Catergory</a>
+                            </div>
+                        </li>
+                            <p> @Html.ActionLink("Reload", "Index", "cmplnt_base", null, new { @class = "btn btn-secondary mr-1", id = "reload" })</p>
+                            </div>
+                    </ul>                    
+                </div>
+            </div>
+            
+        </div>
+        <div class="card-body">
+        <div class="card-block">
+        <div class="table-responsive">
+            <table class="table table-bordered table-table-stripedtable bg-white bg-lighten-3 table-hover mb-0">
+                <thead>
+                    <tr>
+                        <th>Id#</th>
+                        <th>Complainant Name
+                            <button type="button" class="" data-toggle="modal" data-target="#defaultSize">
+                                <i class="icon-filter"></i>
+                            </button>
+                            </th>
+                        <th>Complaint Refrence:(Retailer) 
+                            <button type="button" class="" data-toggle="modal" data-target="#small">
+                                <i class="icon-filter"></i>
+                            </button>
+                            </th>
+                        <th>
+                            Complaint Refrence:(Mornflake)
+                            <button type="button" class="" data-toggle="modal" data-target="#small3">
+                                <i class="icon-filter"></i>
+                            </button>
+                            </th>
+                        <th>Complaint Description 
+                            <button type="button" class="" data-toggle="modal" data-target="#small2">
+                                <i class="icon-filter"></i>
+                            </button>
+                            </th>
+                        <th>Retailer
+                            <button type="button" class="" data-toggle="modal" data-target="#small4">
+                                <i class="icon-filter"></i>
+                            </button>
+                            </th>
+                        <th>Site 
+                            <button type="button" class="" data-toggle="modal" data-target="#small5">
+                                <i class="icon-filter"></i>
+                            </button>
+                            </th>
+                        <th>Product Description
+                            <button type="button" class="" data-toggle="modal" data-target="#small6">
+                                <i class="icon-filter"></i>
+                            </button>
+                            </th>
+                        <th>Product Category
+                            <button type="button" class="" data-toggle="modal" data-target="#small7">
+                                <i class="icon-filter"></i>
+                            </button>
+                            </th>
+                        <th>Product Code Retailer
+                            </th>
+                        <th>Product Code Mornflake
+                            <button type="button" class="" data-toggle="modal" data-target="#small8">
+                                <i class="icon-filter"></i>
+                            </button>
+                            </th>
+                        <th>Complaint Category 
+                            <button type="button" class="" data-toggle="modal" data-target="#small9">
+                                <i class="icon-filter"></i>
+                            </button>
+                            </th>
+                        <th>Complaint Source 
+                            </th>
+                        <th>Action
+                            </th>
+                        <th>
+                            Julienne Code
+                            </th>
+                        <th>Best Before Date
+                            </th>
+                        <th>Best Before Info 
+                            </th>
+                        <th>Complaint Date
+                            </th>
+                        <th>Today's Date
+                            </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                        @foreach (var item in Model)
+                        {
+                        
+                        <tr>                          
+                            <td class="text-truncate">                                
+                                    <a asp-action="Edit" asp-route-id="@item.cmplnt_ID">@Html.DisplayFor(modelItem => item.cmplnt_ID)</a>
+                            </td>
+                            <td class="text-truncate">
+                                @Html.DisplayFor(modelItem => item.cstmr_nme)
+                            </td>
+                            <td class="text-truncate">
+                                @Html.DisplayFor(modelItem => item.cstmr_ref_rtlr)
+                            </td>
+                            <td class="text-truncate">
+                                @Html.DisplayFor(modelItem => item.cstmr_ref_mf)
+                            </td>
+                            <td class="text-truncate">
+                                    <a asp-action="Edit" asp-route-id="@item.cmplnt_ID"> @Html.DisplayFor(modelItem => item.cmplnt_desc)</a>
+                            </td>
+                            <td class="text-truncate">
+                                    @Html.DisplayFor(modelItem => item.rtlr)
+                            </td>
+                            <td class="text-truncate">
+                                    @Html.DisplayFor(modelItem => item.Site)
+                            </td>
+                            <td class="text-truncate">
+                                        @Html.DisplayFor(modelItem => item.prdct_desc)
+                            </td>
+                            <td class="text-truncate">
+                                    @Html.DisplayFor(modelItem => item.prdct_ctgry)
+                            </td>
+                            <td class="text-truncate">
+                                    @Html.DisplayFor(modelItem => item.prdct_cde_rtlr)
+                            </td>
+                            <td class="text-truncate">
+                                    @Html.DisplayFor(modelItem => item.prdct_cde_mf)
+                            </td>
+
+                            <td class="text-truncate">
+                                    @Html.DisplayFor(modelItem => item.cmplnt_ctgry)
+                            </td>
+                            <td class="text-truncate">
+                                    @Html.DisplayFor(modelItem => item.cmplnt_src)
+                            </td>
+
+                            <td class="text-truncate">
+                                        @Html.DisplayFor(modelItem => item.Actn)
+                            </td>
+                            <td class="text-truncate">
+                                    @Html.DisplayFor(modelItem => item.jlenne_cde)
+                            </td>
+                            <td class="text-truncate">
+                                    @Html.DisplayFor(modelItem => item.bbe_dte)
+                            </td>
+                            <td class="text-truncate">
+                                    @Html.DisplayFor(modelItem => item.bbe_info)
+                            </td>
+                            <td class="text-truncate">
+                                    @Html.DisplayFor(modelItem => item.cmplnt_dte)
+                            </td>
+                            <td class="text-truncate">
+                                    @Html.DisplayFor(modelItem => item.tdy_dte)
+                            </td>
+                            <td class="text-truncate">
+                                <a asp-action="Edit" asp-route-id="@item.cmplnt_ID">Edit</a> |
+                                <a asp-action="Details" asp-route-id="@item.cmplnt_ID">Details</a> |
+                                <a asp-action="Delete" asp-route-id="@item.cmplnt_ID">Delete</a>
+                            </td>                           
+                        </tr>
+                        }
+                </tbody>
+            </table>
+            <hr />
+
+        </div>
+        </div>
+        </div>
+        <div class="text-xs-center mb-3">
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    @if (Model.HasPreviousPage)
+                    {
+                        <li class="page-item">
+                            <a class="page-link" href="?pageNumber=1" aria-label="First">
+                                <span aria-hidden="true">First</span>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?pageNumber=@(Model.PageIndex - 1)" aria-label="Previous">
+                                <span aria-hidden="true">&laquo; Prev</span>
+                            </a>
+                        </li>
+                    }
+
+                    @for (var i = Math.Max(1, Model.PageIndex - 2); i <= Math.Min(Model.TotalPages, Model.PageIndex + 2); i++)
+                    {
+                        <li class="page-item @(i == Model.PageIndex ? "active" : "")">
+                            <a class="page-link" href="?pageNumber=@i">@i</a>
+                        </li>
+                    }
+
+                    @if (Model.HasNextPage)
+                    {
+                        <li class="page-item">
+                            <a class="page-link" href="?pageNumber=@(Model.PageIndex + 1)" aria-label="Next">
+                                <span aria-hidden="true">Next &raquo;</span>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?pageNumber=@Model.TotalPages" aria-label="Last">
+                                <span aria-hidden="true">Last</span>
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        </div>
+
+        <hr />
+    </div>
+
+
+<div class="modal fade text-xs-left" id="defaultSize" tabindex="-1" role="dialog" aria-labelledby="myModalLabel19" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel19">Sort and Filter</h4>
+            </div>
+            <div class="modal-body text-center">
+                <!-- Center-align the content -->
+                <form method="post" action="@Url.Action("Index")">
+                    <div class="form-group">
+                        <h4>Filtered Items</h4>
+                        <label>Complainant Name</label>
+                        <input type="text" name="searchString" />
+                        <div class="col-md-8" style="max-height: 200px; overflow-y: scroll; max-height: 300px;">
+                            <label for="filterComplainantName">Select Complainant Name:</label>
+                            <select class="form-control" name="filterComplainantName" id="filterComplainantName">
+                                <option value="">-- Select --</option>
+                                @foreach (var complaint in ViewBag.AllComplaints)
+                                {
+                                    <option value="@complaint.cstmr_nme">@complaint.cstmr_nme</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-3">Apply Filters</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade text-xs-left" id="small" tabindex="-1" role="dialog" aria-labelledby="myModalLabel20" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel20">Sort and Filter</h4>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="@Url.Action("Index")">
+                    <div class="form-group">
+                        <h4>Filtered Items</h4>
+                        <label>Complaint Retailer Refrence</label>
+                        <input type="text" name="searchString" />
+                        <div class="col-md-8" style="max-height: 200px; overflow-y: scroll; max-height: 300px;">
+                            <label for="filterComplainantName">Select Complaint Refrence:</label>
+                            <select class="form-control" name="filterComplainantRefrence" id="filterComplainantRefrence">
+                                <option value="">-- Select --</option>
+                                @foreach (var complaint in ViewBag.AllComplaints)
+                                {
+                                    <option value="@complaint.cstmr_ref_rtlr">@complaint.cstmr_ref_rtlr</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-3">Apply Filters</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade text-xs-left" id="small2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel21" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel21">Sort and Filter</h4>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="@Url.Action("Index")">
+                    <div class="form-group">
+                        <h4>Filtered Items</h4>
+                        <label>Complainant Description</label>
+                        <input type="text" name="searchString" />
+                        <div class="col-md-8" style="max-height: 200px; overflow-y: scroll; max-height: 300px;">
+                            <label for="filterComplainantName">Select Complainant Description:</label>
+                            <select class="form-control" name="filterComplainantDescription" id="filterComplainantDescription">
+                                <option value="">-- Select --</option>
+                                @foreach (var complaint in ViewBag.AllComplaints)
+                                {
+                                    <option value="@complaint.cmplnt_desc">@complaint.cmplnt_desc</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-3">Apply Filters</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade text-xs-left" id="small3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel22" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel22">Sort and Filter</h4>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="@Url.Action("Index")">
+                    <div class="form-group">
+                        <h4>Filtered Items</h4>
+                        <label>Complaint Refrence (MF)</label>
+                        <input type="text" name="searchString" />
+                        <div class="col-md-8" style="max-height: 200px; overflow-y: scroll; max-height: 300px;">
+                            <label for="filterComplainantMF">Complaint Refrence (MF):</label>
+                            <select class="form-control" name="filterComplainantMF" id="filterComplainantMF">
+                                <option value="">-- Select --</option>
+                                @foreach (var complaint in ViewBag.AllComplaints)
+                                {
+                                    <option value="@complaint.cstmr_ref_mf">@complaint.cstmr_ref_mf</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-3">Apply Filters</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade text-xs-left" id="small4" tabindex="-1" role="dialog" aria-labelledby="myModalLabel23" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel23">Sort and Filter</h4>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="@Url.Action("Index")">
+                    <div class="form-group">
+                        <h4>Filtered Items</h4>
+                        <label>Retailer</label>
+                        <input type="text" name="searchString" />
+                        <div class="col-md-8" style="max-height: 200px; overflow-y: scroll; max-height: 300px;">
+                            <label for="filterComplainantRetailer">Retailer:</label>
+                            <select class="form-control" name="filterComplainantRetailer" id="filterComplainantRetailer">
+                                <option value="">-- Select --</option>
+                                @foreach (var complaint in ViewBag.AllComplaints)
+                                {
+                                    <option value="@complaint.rtlr">@complaint.rtlr</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-3">Apply Filters</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade text-xs-left" id="small5" tabindex="-1" role="dialog" aria-labelledby="myModalLabel24" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel24">Sort and Filter</h4>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="@Url.Action("Index")">
+                    <div class="form-group">
+                        <h4>Filtered Items</h4>
+                        <label>Site</label>
+                        <input type="text" name="searchString" />
+                        <div class="col-md-8" style="max-height: 200px; overflow-y: scroll; max-height: 300px;">
+                            <label for="filterComplainantSite">Site:</label>
+                            <select class="form-control" name="filterComplainantSite" id="filterComplainantSite">
+                                <option value="">-- Select --</option>
+                                @foreach (var complaint in ViewBag.AllComplaints)
+                                {
+                                    <option value="@complaint.Site">@complaint.Site</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-3">Apply Filters</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade text-xs-left" id="small6" tabindex="-1" role="dialog" aria-labelledby="myModalLabel25" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel25">Sort and Filter</h4>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="@Url.Action("Index")">
+                    <div class="form-group">
+                        <h4>Filtered Items</h4>
+                        <label>Product Description</label>
+                        <input type="text" name="searchString" />
+                        <div class="col-md-8" style="max-height: 200px; overflow-y: scroll; max-height: 300px;">
+                            <label for="filterProductDes">Product Description</label>
+                            <select class="form-control" name="filterProductDes" id="filterProductDes">
+                                <option value="">-- Select --</option>
+                                @foreach (var complaint in ViewBag.AllComplaints)
+                                {
+                                    <option value="@complaint.prdct_desc">@complaint.prdct_desc</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-3">Apply Filters</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade text-xs-left" id="small7" tabindex="-1" role="dialog" aria-labelledby="myModalLabel26" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel26">Sort and Filter</h4>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="@Url.Action("Index")">
+                    <div class="form-group">
+                        <h4>Filtered Items</h4>
+                        <label>Product Category</label>
+                        <input type="text" name="searchString" />
+                        <div class="col-md-8" style="max-height: 200px; overflow-y: scroll; max-height: 300px;">
+                            <label for="filterProductCat">Product Category</label>
+                            <select class="form-control" name="filterProductCat" id="filterProductCat">
+                                <option value="">-- Select --</option>
+                                @foreach (var complaint in ViewBag.AllComplaints)
+                                {
+                                    <option value="@complaint.prdct_ctgry">@complaint.prdct_ctgry</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-3">Apply Filters</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade text-xs-left" id="small8" tabindex="-1" role="dialog" aria-labelledby="myModalLabel27" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel27">Sort and Filter</h4>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="@Url.Action("Index")">
+                    <div class="form-group">
+                        <h4>Filtered Items</h4>
+                        <label>Product Code Mornflake</label>
+                        <input type="text" name="searchString" />
+                        <div class="col-md-8" style="max-height: 200px; overflow-y: scroll; max-height: 300px;">
+                            <label for="filterProductMf">Code Mornflake</label>
+                            <select class="form-control" name="filterProductMf" id="filterProductMf">
+                                <option value="">-- Select --</option>
+                                @foreach (var complaint in ViewBag.AllComplaints)
+                                {
+                                    <option value="@complaint.prdct_cde_mf">@complaint.prdct_cde_mf</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-3">Apply Filters</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade text-xs-left" id="small9" tabindex="-1" role="dialog" aria-labelledby="myModalLabel28" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel28">Sort and Filter</h4>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="@Url.Action("Index")">
+                    <div class="form-group">
+                        <h4>Complaint Category</h4>
+                        <div class="col-md-8" style="max-height: 200px; overflow-y: scroll; max-height: 300px;">
+                            <label for="filterComplaintCat">Code Mornflake</label>
+                            <select class="form-control" name="filterComplaintCat" id="filterComplaintCat">
+                                <option value="">-- Select --</option>
+                                @foreach (var complaint in ViewBag.AllComplaints)
+                                {
+                                    <option value="@complaint.cmplnt_ctgry">@complaint.cmplnt_ctgry</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-3">Apply Filters</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+       // Script to handle form submission for sorting
+       document.querySelector('form').addEventListener('submit', function (e) {
+           const sortOrderDropdown = document.querySelector('#sortOrder');
+           const userSortInput = document.querySelector('input[name="userSortInput"]');
+           if (sortOrderDropdown.value !== '' && userSortInput.value !== '') {
+               // If both dropdown and user input are provided, clear the user input to avoid conflicts
+               userSortInput.value = '';
+           }
+       });
+</script>
+
+    <!-- Include jQuery library if not already included -->
+
+
+}
+

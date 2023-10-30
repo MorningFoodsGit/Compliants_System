@@ -1,0 +1,35 @@
+﻿@model List<dynamic>
+@{
+    ViewData["Title"] = "test";
+}
+
+<h1>View</h1>
+
+
+<h2>Retailer Quantities</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Retailer</th>
+            <th>Quantity</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Retailer</td>
+                    <td>@item.Quantity</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <p>No data available.</p>
+        }
+
+    </tbody>
+</table>

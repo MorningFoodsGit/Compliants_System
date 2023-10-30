@@ -1,0 +1,353 @@
+﻿@model WebApplication2.Models.cmplnt_base
+
+@{
+	ViewData["Title"] = "Create";
+	Layout = "~/Views/Shared/_layout.cshtml";
+}
+
+<div class="col-md-12">
+	<div class="card">
+		<div class="card-header">
+			<h4 class="card-title">Raise Complaint</h4>
+			<a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
+			<div class="heading-elements">
+				<ul class="list-inline mb-0">
+					<li><a data-action="reload"><i class="icon-reload"></i></a></li>
+					<li><a data-action="expand"><i class="icon-expand2"></i></a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="card-body collapse in">
+			<div class="card-block">
+				<div class="card-text">
+					<p>This is form is used to enter new complaints.</p>
+				</div>
+				<form asp-action="Create" method="post" id="form">
+					<div class="form-body">
+						<h4 class="form-section"><i class="icon-head blue"></i> Complaint Details</h4>
+						<div class="form-group">
+							<label for="cstmr_nme">Complainant Name</label>
+							<input asp-for="cstmr_nme" type="text" id="cstmr_nme" class="form-control" placeholder="Complainant name" name="cstmr_nme" required>
+							<span asp-validation-for="cstmr_nme" class="text-danger"></span>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<input type="checkbox" class="form-group" name="filterComplainantName" value="true" />
+									<label for="cstmr_ref_rtlr">Complaint Refrence:(Retailer)</label>
+									<input asp-for="cstmr_ref_rtlr" type="text" id="cstmr_ref_rtlr" class="form-control" placeholder="Complaint refrence for retailer" name="cstmr_ref_rtlr" required>
+									<span asp-validation-for="cstmr_ref_rtlr" class="text-danger"></span>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="cstmr_ref_mf">Complaint Refrence:(Mornflake)</label>
+									<input asp-for="cstmr_ref_mf" type="text" id="cstmr_ref_mf" class="form-control" placeholder="Complaint refrence for morning flake" name="cstmr_ref_mf" required>
+									<span asp-validation-for="cstmr_ref_mf" class="text-danger"></span>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="cmplnt_desc">Complaint Description</label>
+							<textarea asp-for="cmplnt_desc" id="cmplnt_desc" rows="5" class="form-control square" name="cmplnt_desc" placeholder="Complaint Description"></textarea>
+							<span asp-validation-for="cmplnt_desc" class="text-danger"></span>
+						</div>											
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="rtlr">Retailer</label>
+									<input asp-for="rtlr" list="rtlrs" id="rtlr" name="rtlr" class="form-control" placeholder="Complaint Retailer" />
+									<datalist id="rtlrs">
+										<option value="none" selected="" disabled="">Select retailer</option>
+										<option value="Mornflake">Mornflake</option>
+										<option value="Aldi">Aldi</option>
+										<option value="Asda">Asda</option>
+										<option value="Brakes">Brakes</option>
+										<option value="Co-op">Co-op</option>
+										<option value="Lidl">Lidl</option>
+										<option value="Morrisons">Morrisons</option>
+										<option value="Netto">Netto</option>
+										<option value="Nisa">Nisa</option>
+										<option value="Sainsburys">Sainsburys</option>
+										<option value="Tesco">Tesco</option>
+										<option value="Waitrose">Waitrose</option>
+									</datalist>
+									<span asp-validation-for="rtlr" class="text-danger"></span>									
+								</div>
+							</div>
+
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="Site">Site</label>
+									<input asp-for="Site" list="Sites" id="Site" name="Site" class="form-control" placeholder="Enter a Site" />
+									<datalist id="Sites">
+										<option value="0" selected="" disabled="">Select site</option>
+										<option value="Boyndie">Boyndie</option>
+										<option value="Buckley">Buckley</option>
+										<option value="Crewe">Crewe</option>
+									</datalist>
+									<span asp-validation-for="Site" class="text-danger"></span>									
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="cmplnt_ctgry">Complaint Category</label>
+									<input asp-for="cmplnt_ctgry" list="cmplnt_ctgrys" id="cmplnt_ctgry" name="cmplnt_ctgry" class="form-control" placeholder="Enter a Complaint Category" />
+									<datalist id="cmplnt_ctgrys">
+										<option value="Foreign Body">Foreign Body</option>
+										<option value="Quality">Quality</option>
+									</datalist>
+									<span asp-validation-for="cmplnt_ctgry" class="text-danger"></span>									
+								</div>
+							</div>
+
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="cmplnt_src">Complaint Source</label>
+									<input asp-for="cmplnt_src" list="cmplnt_srcs" id="cmplnt_src" name="cmplnt_src" class="form-control" placeholder="Enter a Complaint Source" />
+									<datalist id="cmplnt_srcs">
+										<option value="0" selected="" disabled="">Select complaint source</option>
+										<option value="Glass">Glass</option>
+										<option value="Hair">Hair</option>
+										<option value="Infest">Infest</option>
+										<option value="Metal">Metal</option>
+										<option value="Plastic Hard">Plastic Hard</option>
+										<option value="Plastic Soft">Plastic Soft</option>
+										<option value="Seeds / Husk">Seeds / Husk</option>
+										<option value="Stem / Stalk">Stem / Stalk</option>
+										<option value="Stone">Stone</option>
+										<option value="String">String</option>
+										<option value="Wood">Wood</option>
+										<option value="Appearance">Appearance</option>
+										<option value="Comp Missing">Comp Missing</option>
+										<option value="Dusty">Dusty</option>
+										<option value="Oat Flour">Oat Flour</option>
+										<option value="Mouldy">Mouldy</option>
+										<option value="Pack Fault">Pack Fault</option>
+										<option value="Smell">Smell</option>
+										<option value="Taint">Taint</option>
+										<option value="Taste">Taste</option>
+										<option value="Texture">Texture</option>
+										<option value="Other Source">Other Complaint Source</option>
+									</datalist>
+									<span asp-validation-for="cmplnt_src" class="text-danger"></span>
+								</div>
+							</div>
+						</div>
+
+						<h4 class="form-section"><i class="icon-clipboard4 blue"></i> Product Info</h4>
+						
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="query">Search Product</label>
+									<input for="query" type="text" id="query" class="form-control" placeholder="Enter product code or description">
+
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<button type="button" class="btn btn-outline-info block" data-toggle="modal" data-target="#inlineForm">
+										Confirm product code to make sure they match
+									</button>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="prdct_desc">Product Description:</label>
+							<textarea asp-for="prdct_desc" id="prdct_desc" class="form-control" placeholder="Selected input" name="prdct_desc" readonly></textarea>
+							<!-- The div to display search results -->
+							<span asp-validation-for="prdct_desc" class="text-danger"></span>
+						</div>
+
+						<div class="row">
+							<div class="col-md-6">
+								<div id="searchResults6"></div>
+							</div>
+							<div class="col-md-6">
+								<div id="searchResults5"></div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="prdct_cde_mf">Product Code MornFlake:</label>
+									<input asp-for="prdct_cde_mf" type="text" id="prdct_cde_mf" class="form-control" placeholder="Enter MornFlake Product Code" name="prdct_cde_mf" readonly required>
+									
+									<span asp-validation-for="prdct_cde_mf" class="text-danger"></span>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="prdct_cde_rtlr">Product Code Retailer</label>
+									<input asp-for="prdct_cde_rtlr" type="text" id="prdct_cde_rtlr" class="form-control" placeholder="Product code retailer" name="prdct_cde_rtlr" required>
+									<span asp-validation-for="prdct_cde_rtlr" class="text-danger"></span>
+								</div>
+							</div>
+						</div>						
+
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="cmplnt_dte">Complaint Date</label>
+									<input asp-for="cmplnt_dte" type="date" id="cmplnt_dte" class="form-control" name="cmplnt_dte" data-toggle="tooltip" data-trigger="hover" data-placement="top" data-title="Complaint Date">
+									<span asp-validation-for="cmplnt_dte" class="text-danger"></span>
+								</div>
+							</div>
+
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="bbe_dte">Best Before Date</label>
+									<input asp-for="bbe_dte" type="date" id="bbe_dte" class="form-control" name="bbe_dte" data-toggle="tooltip" data-trigger="hover" data-placement="top" data-title="Best Before Date">
+									<span asp-validation-for="bbe_dte" class="text-danger"></span>
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="prdct_ctgry">Product Category</label>
+									<select asp-for="prdct_ctgry" id="prdct_ctgry" name="prdct_ctgry" class="form-control">
+										<option value="none" selected="" disabled="">Select complaint category</option>
+										<option value="Crisp">Crisp</option>
+										<option value="Flake">Flake</option>
+										<option value="Granola">Granola</option>
+										<option value="Muesli">Muesli</option>
+										<option value="Oats">Oats</option>
+										<option value="Pots">Pots</option>
+										<option value="Sachets">Sachets</option>
+										<option value="Squares">Squares</option>
+									</select>
+									<span asp-validation-for="prdct_ctgry" class="text-danger"></span>
+								</div>
+							</div>
+
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="bbe_info">Best Before Info</label>
+									<input asp-for="bbe_info" type="text" id="bbe_info" class="form-control" name="bbe_info" data-toggle="tooltip" data-trigger="hover" data-placement="top" data-title="Best Before Date">
+									<span asp-validation-for="bbe_info" class="text-danger"></span>
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="jlenne_cde">Julienne Code</label>
+									<input asp-for="jlenne_cde" type="number" id="jlenne_cde" class="form-control" placeholder="Julienne code must be numbers" name="jlenne_cde">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="Actn">Action </label>
+									<select asp-for="Actn" id="Actn" name="Actn" class="form-control">
+										<option value="none" selected="" disabled="">Select Action</option>
+										<option value="Closed">Closed</option>
+										<option value="No Reply Required">No Reply Required</option>
+										<option value="Reply Sent">Reply Sent</option>
+										<option value="Sent to Boyndie">Sent to Boyndie</option>
+										<option value="Sent to Buckley">Sent to Buckley</option>
+										<option value="Sent to QA">Sent to QA</option>
+										<option value="Uplifted">Uplifted</option>
+										<option value="Waiting for FB">Waiting for FeedBack</option>
+									</select>
+									<span asp-validation-for="Actn" class="text-danger"></span>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="tdy_dte">Todays Date</label>
+							<input asp-for="tdy_dte" type="date" id="tdy_dte" class="form-control" name="tdy_dte" data-toggle="tooltip" data-trigger="hover" data-placement="top" data-title="Complaint Date">
+							<span asp-validation-for="tdy_dte" class="text-danger"></span>
+						</div>
+
+						<div class="form-group">
+							<label>Additional File</label>
+							<label id="projectinput7" class="file center-block">
+								<input type="file" id="file">
+								<span class="file-custom"></span>
+							</label>
+						</div>
+					</div>
+
+					<div class="form-actions">
+						@Html.ActionLink("Cancel", "Dashboard", "Home", null, new { @class = "btn btn-warning mr-1", id = "btnGoBack" })
+						<button type="submit" value="Create" class="btn btn-primary" onclick="submitForm">
+							<i class="icon-check2"></i> Save
+						</button>
+					</div>
+				</form>
+				<a asp-action="Index">Back to List</a>
+			</div>						
+		</div>
+	</div>
+</div>
+
+<div class="modal fade text-xs-left" id="inlineForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<label class="modal-title text-text-bold-600" id="myModalLabel33">Inline Product Search Form</label>
+			</div>
+			<fieldset class="form-group position-relative">
+				<form asp-controller="ProductSearch" asp-action="Search" data-ajax="true" data-ajax-method="POST" data-ajax-update="#searchResults">
+					<div class="col-md-6">
+					<div class="form-group">
+						<label for="query">Search Product</label>
+						<input type="text" class="form-control form-control-lg input-lg" id="query" name="query" placeholder="Search Product...">
+					</div>
+						<button type="submit" class="btn btn-primary" onclick="submitForm()><i class="icon-ios-search-strong"></i>Search Product</button>
+					</div>
+
+					<div class="form-control-position">
+						<i class="icon-microphone2 font-medium-4"></i>
+					</div>
+				</form>
+			</fieldset>
+		</div>
+	</div>
+</div>
+
+@section Scripts {
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
+	<script src="~/lib/app-assets/js/scripts/modal/components-modal.js" type="text/javascript"></script>
+	<script>
+		document.getElementById("btnGoBack").addEventListener("click", function () {
+			window.location.href = this.href;
+		});
+	</script>
+	<script>
+   $(document).ready(function () {
+			$('#searchModal').submit(function (e) {
+           e.preventDefault();
+           var query = $('#query').val();
+           if (query) {
+               $.ajax({
+                   url: '/ProductSearch/Search',
+                   type: 'POST',
+                   data: { query: query },
+                   success: function (data) {
+                       $('#searchModal .modal-body').html(data);
+                       $('#searchModal').modal('show');
+                   },
+                   error: function (error) {
+                       console.log('Error:', error);
+                   }
+               });
+           }
+       });
+   });
+</script>
+}

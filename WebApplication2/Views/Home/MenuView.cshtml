@@ -1,0 +1,93 @@
+﻿
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<!-- main menu-->
+<div data-scroll-to-active="true" class="main-menu menu-fixed menu-dark menu-accordion menu-shadow">
+    <!-- main menu header-->
+    <div class="main-menu-header">
+        <input type="text" placeholder="Search" class="menu-search form-control round" />
+    </div>
+    <!-- / main menu header-->
+    <!-- main menu content-->
+    <div class="main-menu-content">
+        <ul id="main-menu-navigation" data-menu="menu-navigation" class="navigation navigation-main">
+            <li class=" nav-item">
+                <a href="index.html"><i class="icon-home3 red"></i><span data-i18n="nav.dash.main" class="menu-title">Dashboard</span></a>
+                <ul class="menu-content">
+                    <li>
+
+                        <a class="menu-item" data-i18n="nav.dash.main" asp-area="" asp-controller="Home" asp-action="Dashboard"><i class="icon-home red"></i>Home</a>
+                    </li>
+                    <li>
+                        <a class="menu-item" data-i18n="nav.dash.main" asp-area="" asp-controller="cmplnt_base" asp-action="Create"><i class="icon-birdpen red"></i>Raise Complaint</a>
+                    </li>
+                    <li>
+                        <a class="menu-item" data-i18n="nav.dash.main" asp-area="" asp-controller="cmplnt_base" asp-action="Index"><i class="icon-newspaper-o red"></i>View Complaint</a>
+                    </li>
+                </ul>
+            </li>
+            <li class=" nav-item">
+                <a href="#"><i class="icon-android-cart red"></i><span data-i18n="nav.page_layouts.main" class="menu-title">Products</span></a>
+                <ul class="menu-content">
+                    <li>
+                        <a class="menu-item" data-i18n="nav.page_layouts.1_column" asp-area="" asp-controller="Stocks" asp-action="Index"><i class="icon-wpforms red"></i>View Products</a>
+                    </li>
+                    <li>
+                        <a class="menu-item" data-i18n="nav.page_layouts.1_column" asp-area="" asp-controller="ProductSearch" asp-action="Index"><i class="icon-zoom-in red"></i>Search</a>
+                    </li>
+                </ul>
+            </li>
+            <li class=" nav-item">
+                <a href="#"><i class="icon-stats-bars2 red"></i><span data-i18n="nav.project.main" class="menu-title">Analysis</span></a>
+                <ul class="menu-content">
+                    <li>
+                        <a class="menu-item" data-i18n="nav.login_register_pages.register_simple" asp-area="" asp-controller="Analysis" asp-action="Index">Unit Analysis</a>
+                    </li>
+                    <li>
+                        <a href="unlock-user.html" data-i18n="nav.login_register_pages.unlock_user" class="menu-item">Collection Analysis</a>
+                    </li>
+                    <li>
+                        <a href="recover-password.html" data-i18n="nav.login_register_pages.recover_password" class="menu-item">Individual Analysis</a>
+                    </li>
+                    <li>
+                        <a href="#" data-i18n="nav.error_pages.main" class="menu-item">Product Analysis</a>
+                        <ul class="menu-content">
+                            <li>
+                                <a href="error-400.html" data-i18n="nav.error_pages.error_400" class="menu-item">Error 400</a>
+                            </li>
+                            <li>
+                                <a href="error-401.html" data-i18n="nav.error_pages.error_401" class="menu-item">Error 401</a>
+                            </li>
+                            <li>
+                                <a href="error-403.html" data-i18n="nav.error_pages.error_403" class="menu-item">Error 403</a>
+                            </li>
+                            <li>
+                                <a href="error-404.html" data-i18n="nav.error_pages.error_404" class="menu-item">Error 404</a>
+                            </li>
+                            <li>
+                                <a href="error-500.html" data-i18n="nav.error_pages.error_500" class="menu-item">Error 500</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="under-maintenance.html" data-i18n="nav.other_pages.under_maintenance" class="menu-item">Generate</a>
+                    </li>
+                </ul>
+            </li>
+            <li class=" navigation-header">
+                <span data-i18n="nav.category.support">Support</span><i data-toggle="tooltip" data-placement="right" data-original-title="Support" class="icon-ellipsis icon-ellipsis"></i>
+            </li>
+            <li class=" nav-item">
+                <a href=""><i class="icon-support red"></i><span data-i18n="nav.support_raise_support.main" class="menu-title">Raise Support</span></a>
+            </li>
+            <li class=" nav-item">
+                <a href=""><i class="icon-document-text red"></i><span data-i18n="nav.support_documentation.main" class="menu-title">Documentation</span></a>
+            </li>
+        </ul>
+    </div>
+    <!-- /main menu content-->
+    <!-- main menu footer-->
+    <!-- include includes/menu-footer-->
+    <!-- main menu footer-->
+</div>

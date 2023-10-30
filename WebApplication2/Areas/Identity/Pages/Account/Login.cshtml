@@ -1,0 +1,101 @@
+﻿@page
+@model LoginModel
+
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+<div class="app-content content container-fluid">
+    <div class="content-wrapper">
+        <div class="content-header row">
+        </div>
+        <div class="content-body">
+            <section class="flexbox-container">
+                <div class="col-md-4 offset-md-4 col-xs-10 offset-xs-1  box-shadow-2 p-0">
+                    <div class="card border-grey border-lighten-3 m-0">
+                        <div class="card-header no-border">
+                            <div class="card-title text-xs-center">
+                                <div class="p-1"><img src="~/lib/app-assets/images/logo/morning-foods.png" width="100" height="100" alt="branding logo"></div>
+                            </div>
+                            <h6 class="card-subtitle line-on-side text-muted text-xs-center font-small-3 pt-2"><span>Login with Morning Foods</span></h6>
+                        </div>
+                        <div class="card-body collapse in">
+                            <div class="card-block">
+                                <form id="account" method="post">
+                                    <fieldset class="form-group position-relative has-icon-left mb-0">
+                                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                        <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
+                                        <span asp-validation-for="Input.Email" class="text-danger"></span>
+                                        <div class="form-control-position">
+                                            <i class="icon-head"></i>
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="form-group position-relative has-icon-left">
+                                        <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" />
+                                        <span asp-validation-for="Input.Password" class="text-danger"></span>
+                                        <div class="form-control-position">
+                                            <i class="icon-key3"></i>
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="form-group row">
+                                        <div class="col-md-6 col-xs-12 text-xs-center text-md-left">
+                                            <fieldset>
+                                                <input type="checkbox" id="remember-me" class="chk-remember" asp-for="Input.RememberMe">
+                                                <label for="remember-me"> Remember Me</label>
+                                            </fieldset>
+                                        </div>
+                                        <div class="col-md-6 col-xs-12 text-xs-center text-md-right"><a asp-page="./ForgotPassword" id="forgot-password" class="card-link">Forgot Password?</a></div>
+                                    </fieldset>
+                                    <button id="login-submit" type="submit" class="btn btn-primary btn-lg btn-block"><i class="icon-unlock2"></i> Login</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="">
+                                <p class="float-sm-left text-xs-center m-0"><a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Contact Support</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </div>
+</div>
+<div class="col-md-6 col-md-offset-2">
+    <section>
+        <h3>Use another service to log in.</h3>
+        <hr />
+        @{
+            if ((Model.ExternalLogins?.Count ?? 0) == 0)
+            {
+                <div>
+                    <p>
+                        There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">
+                            article
+                            about setting up this ASP.NET application to support logging in via external services
+                        </a>.
+                    </p>
+                </div>
+            }
+            else
+            {
+                <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                    <div>
+                        <p>
+                            @foreach (var provider in Model.ExternalLogins!)
+                            {
+                                <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                            }
+                        </p>
+                    </div>
+                </form>
+            }
+        }
+    </section>
+</div>
+
+
+

@@ -1,0 +1,197 @@
+﻿@model WebApplication2.Models.cmplnt_base
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Recent invoice with Statistics -->
+<div class="row">
+    <div class="col-xl-3 col-lg-6 col-xs-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="card-block">
+                    <div class="media">
+                        <div class="media-body text-xs-left">
+                            <h3 class="pink"></h3>
+                            <div id="complaintCountDiv"></div>
+                            <span>Total Complaints</span>
+                        </div>
+                        <div class="media-right media-middle">
+                            <i class="icon-bag2 pink font-large-2 float-xs-right"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-lg-6 col-xs-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="card-block">
+                    <div class="media">
+                        <div class="media-body text-xs-left">
+                            <h3 class="teal" id="actionCountResult">Loading...</h3>
+                            <span>Sent to QA</span>                      
+                        </div>
+                        <div class="media-right media-middle">
+                            <i class="icon-user1 teal font-large-2 float-xs-right"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-lg-6 col-xs-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="card-block">
+                    <div class="media">
+                        <div class="media-body text-xs-left">
+                            <h3 class="deep-orange"></h3>
+                            <div id="retailerCount"></div>
+                            <span>Retailers</span>
+                        </div>
+                        <div class="media-right media-middle">
+                            <i class="icon-diagram deep-orange font-large-2 float-xs-right"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-lg-6 col-xs-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="card-block">
+                    <div class="media">
+                        <div class="media-body text-xs-left">
+                            <h3 class="cyan">3</h3>
+                            <span>Support Tickets</span>
+                        </div>
+                        <div class="media-right media-middle">
+                            <i class="icon-ios-help-outline cyan font-large-2 float-xs-right"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--/ stats -->
+<!--/ project charts -->
+
+<div class="row match-height">
+    <div class="col-xl-4 col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="media">
+                    <div class="p-2 text-xs-center bg-deep-orange media-left media-middle">
+                        <i class="icon-ban font-large-2 white"></i>
+                    </div>
+                    <div class="p-2 media-body">
+                        <h5 class="deep-orange">Reply Sent</h5>
+                        <h5 id="actionCountResult2" class="text-bold-400">Loading...</h5>
+                        <progress id="actionCountProgress2" class="progress progress-sm progress-deep-orange mt-1 mb-0" value="0" max="200"></progress>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <div class="media">
+                    <div class="p-2 text-xs-center bg-cyan media-left media-middle">
+                        <i class="icon-pencil3 font-large-2 white"></i>
+                    </div>
+                    <div class="p-2 media-body">
+                        <h5 class="deep-orange">Sent to Boyndie</h5>
+                        <h5 id="actionCountResult" class="text-bold-400">Loading...</h5>
+                        <progress id="actionCountProgress" class="progress progress-sm progress-deep-orange mt-1 mb-0" value="0" max="200"></progress>                  
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <div class="media">
+                    <div class="p-2 text-xs-center bg-cyan media-left media-middle">
+                        <i class="icon-ios-paper-outline font-large-2 white"></i>
+                    </div>
+                    <div class="p-2 media-body">
+                        <h5 class="deep-orange">Sent to Buckley</h5>
+                        <h5 id="actionCountResult3" class="text-bold-400">Loading...</h5>
+                        <progress id="actionCountProgress3" class="progress progress-sm progress-deep-orange mt-1 mb-0" value="0" max="200"></progress>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-8 col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Recent Complaints</h4>
+                <a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
+                <div class="heading-elements">
+                    <ul class="list-inline mb-0">
+                        <li><a data-action="reload"><i class="icon-reload"></i></a></li>
+                        <li><a data-action="expand"><i class="icon-expand2"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="card-block">
+                    <p>Complaints per user. <span class="float-xs-right"><a class="" asp-area="" asp-controller="cmplnt_base" asp-action="Index">View all Complaints <i class="icon-arrow-right2"></i></a></span></p>
+                </div>                        
+                <div style="width: 80%; margin: auto;">
+                    <div id="retailerChart"></div>
+                    <canvas id="retailerChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }   
+<script>
+        google.charts.load('current', { packages: ['corechart'] });
+        google.charts.setOnLoadCallback(fetchAndPlotData);
+
+        function fetchAndPlotData() {
+            $.ajax({
+                url: '/ControllerName/GetRetailerQuantities', // Adjust the URL based on your controller
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    drawChart(data);
+                },
+                error: function (error) {
+                    console.log('Error:', error);
+                }
+            });
+        }
+
+        function drawChart(data) {
+            var dataTable = new google.visualization.DataTable();
+            dataTable.addColumn('string', 'Retailer');
+            dataTable.addColumn('number', 'Quantity');
+
+            data.forEach(item => {
+                dataTable.addRow([item.Retailer, item.Quantity]);
+            });
+
+            var options = {
+                title: 'Retailer Quantities',
+                width: 800,
+                height: 400,
+                legend: { position: 'none' },
+                chartArea: { width: '70%' }
+            };
+
+            var chart = new google.visualization.BarChart(document.getElementById('retailerChart'));
+            chart.draw(dataTable, options);
+        }
+</script>    
+
+}
+<!-- Recent invoice with Statistics -->

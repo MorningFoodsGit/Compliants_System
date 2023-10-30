@@ -1,0 +1,151 @@
+﻿@model WebApplication2.Models.cmplnt_base
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Complaint Details <i class="icon-wpforms green"></i></h4>
+                <a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
+                <div class="heading-elements">
+                    <ul class="list-inline mb-0">
+                        <li><a data-action="collapse"><i class="icon-minus4"></i></a></li>
+                        <li><a data-action="reload"><i class="icon-reload"></i></a></li>
+                        <li><a data-action="expand"><i class="icon-expand2"></i></a></li>
+                        <li><a data-action="close"><i class="icon-cross2"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card-body collapse in">
+                <div class="card-block">
+                    <p class="card-text">Contains the individual Compliants entered in to the system</p>
+                    <hr />
+                    <div class="container">
+                        <h4>Complaint for @Html.DisplayFor(model => model.cstmr_nme)</h4>
+                        <hr />
+                        <dl class="row">
+                            <dt class="col-sm-2">
+                                <label for="cstmr_nme">Complainant Name:</label>
+                            </dt>
+                            <dd class="col-sm-10">
+                                @Html.DisplayFor(model => model.cstmr_nme)
+                            </dd>
+                            <dt class="col-sm-2">
+                                <label for="cstmr_ref_rtlr">Complaint Refrence (Retailer):</label>
+                            </dt>
+                            <dd class="col-sm-10">
+                                @Html.DisplayFor(model => model.cstmr_ref_rtlr)
+                            </dd>
+                            <dt class="col-sm-2">
+                                <label for="cstmr_ref_mf">Complaint Refrence (Morning Flake):</label>
+                            </dt>
+                            <dd class="col-sm-10">
+                                @Html.DisplayFor(model => model.cstmr_ref_mf)
+                            </dd>
+                            <dt class="col-sm-2">
+                                <label for="rtlr">Retailer:</label>
+                            </dt>
+                            <dd class="col-sm-10">
+                                @Html.DisplayFor(model => model.rtlr)
+                            </dd>
+                            <dt class="col-sm-2">
+                                <label for="Site">Site:</label>
+                            </dt>
+                            <dd class="col-sm-10">
+                                @Html.DisplayFor(model => model.Site)
+                            </dd>
+                            <dt class="col-sm-2">
+                                <label for="prdct_ctgry">Product Category:</label>
+                            </dt>
+                            <dd class="col-sm-10">
+                                @Html.DisplayFor(model => model.prdct_ctgry)
+                            </dd>
+                            <dt class="col-sm-2">
+                                <label for="prdct_cde_rtlr">Product Code Retailer:</label>
+                            </dt>
+                            <dd class="col-sm-10">
+                                @Html.DisplayFor(model => model.prdct_cde_rtlr)
+                            </dd>
+                            <dt class="col-sm-2">
+                                <label for="prdct_cde_mf">Product Code Mornflake:</label>
+                            </dt>
+                            <dd class="col-sm-10">
+                                @Html.DisplayFor(model => model.prdct_cde_mf)
+                            </dd>
+                            <dt class="col-sm-2">
+                                <label for="bbe_info">Best Before Info:</label>
+                            </dt>
+                            <dd class="col-sm-10">
+                                @Html.DisplayFor(model => model.bbe_info)
+                            </dd>
+                            <dt class="col-sm-2">
+                                <label for="cmplnt_ctgry">Complainant Category:</label>
+                            </dt>
+                            <dd class="col-sm-10">
+                                @Html.DisplayFor(model => model.cmplnt_ctgry)
+                            </dd>
+                            <dt class="col-sm-2">
+                                <label for="cmplnt_src">Complainant Source:</label>
+                            </dt>
+                            <dd class="col-sm-10">
+                                @Html.DisplayFor(model => model.cmplnt_src)
+                            </dd>
+                            <dt class="col-sm-2">
+                                <label for="cmplnt_desc">Complainant Description:</label>
+                            </dt>
+                            <dd class="col-sm-10">
+                                @Html.DisplayFor(model => model.cmplnt_desc)
+                            </dd>
+                            <dt class="col-sm-2">
+                                <label for="prdct_desc">Product Description:</label>
+                            </dt>
+                            <dd class="col-sm-10">
+                                @Html.DisplayFor(model => model.prdct_desc)
+                            </dd>
+                            <dt class="col-sm-2">
+                                <label for="prdct_desc">Action:</label>
+                            </dt>
+                            <dd class="col-sm-10">
+                                @Html.DisplayFor(model => model.Actn)
+                            </dd>
+                            <dt class="col-sm-2">
+                                <label for="cmplnt_desc">Jlenne Code:</label>
+                            </dt>
+                            <dd class="col-sm-10">
+                                @Html.DisplayFor(model => model.jlenne_cde)
+                            </dd>
+                            <dt class="col-sm-2">
+                                <label for="prdct_desc">Best Before Date:</label>
+                            </dt>
+                            <dd class="col-sm-10">
+                                @Html.DisplayFor(model => model.bbe_dte)
+                            </dd>
+                            <dt class="col-sm-2">
+                                <label for="prdct_desc">Complaint Date:</label>
+                            </dt>
+                            <dd class="col-sm-10">
+                                @Html.DisplayFor(model => model.cmplnt_dte)
+                            </dd>
+                            <dt class="col-sm-2">
+                                <label for="prdct_desc">Today Date:</label>
+                            </dt>
+                            <dd class="col-sm-10">
+                                @Html.DisplayFor(model => model.tdy_dte)
+                            </dd>
+                        </dl>
+                        <div>
+                           <a class="btn btn-info mr-1" asp-action="Edit" asp-route-id="@Model?.cmplnt_ID">Edit</a>
+                           <a class="btn btn-warning mr-1" asp-action="Index">Back to List</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+
+}

@@ -1,0 +1,32 @@
+﻿@model List<Stock> // Replace with the correct namespace
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (Model != null && Model.Count > 0)
+{
+    <h3>Search Results:</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Product Code Mornflake</th>
+                <th>Product Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Model)
+            {
+                <tr>
+                    <td>@product.Stkid</td>
+                    <td>@product.StkDesc</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No results found.</p>
+}
+

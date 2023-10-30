@@ -1,0 +1,276 @@
+﻿@model WebApplication2.Models.cmplnt_base
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Edit @Html.DisplayFor(model => model.cstmr_nme) <i class="icon-wpforms green"></i></h4>
+                <a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
+                <div class="heading-elements">
+                    <ul class="list-inline mb-0">
+                        <li><a data-action="collapse"><i class="icon-minus4"></i></a></li>
+                        <li><a data-action="reload"><i class="icon-reload"></i></a></li>
+                        <li><a data-action="expand"><i class="icon-expand2"></i></a></li>
+                        <li><a data-action="close"><i class="icon-cross2"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card-body collapse in">
+                <div class="card-block">
+                    <p class="card-text">Save Edit file</p>
+                    <hr />
+                    <div class="container">
+                        <form asp-action="Edit">
+                            <div class="form-body">
+                                <h4 class="form-section"><i class="icon-head blue"></i> Complaint Details</h4>
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <input type="hidden" asp-for="cmplnt_ID" />
+                                <div class="form-group">
+                                    <label asp-for="cstmr_nme" class="control-label">Complainant Name</label>
+                                    <input asp-for="cstmr_nme" class="form-control" />
+                                    <span asp-validation-for="cstmr_nme" class="text-danger"></span>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="cstmr_ref_rtlr" class="control-label">Complaint Refrence:(Retailer)</label>
+                                            <input asp-for="cstmr_ref_rtlr" class="form-control" />
+                                            <span asp-validation-for="cstmr_ref_rtlr" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="cstmr_ref_mf" class="control-label">Complaint Refrence:(Morning Flake)</label>
+                                            <input asp-for="cstmr_ref_mf" class="form-control" />
+                                            <span asp-validation-for="cstmr_ref_mf" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="cmplnt_desc" class="control-label">Complaint Description</label>
+                                    <textarea asp-for="cmplnt_desc" rows="5" class="form-control"></textarea>
+                                    <span asp-validation-for="cmplnt_desc" class="text-danger"></span>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="rtlr" class="control-label">Retailer</label>
+                                            <select asp-for="rtlr" name="rtlr" class="form-control" id="rtlr" onChange="check(this);">
+                                                <option value="none" selected="" disabled="">Select retailer</option>
+                                                <option value="Mornflake">Mornflake</option>
+                                                <option value="Aldi">Aldi</option>
+                                                <option value="Asda">Asda</option>
+                                                <option value="Brakes">Brakes</option>
+                                                <option value="Co-op">Co-op</option>
+                                                <option value="Lidl">Lidl</option>
+                                                <option value="Morrisons">Morrisons</option>
+                                                <option value="Netto">Netto</option>
+                                                <option value="Nisa">Nisa</option>
+                                                <option value="Sainsburys">Sainsburys</option>
+                                                <option value="Tesco">Tesco</option>
+                                                <option value="Waitrose">Waitrose</option>
+                                                <option value="other">Other</option>
+                                            </select>
+                                            <span asp-validation-for="rtlr" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="Site" class="control-label">Site</label>
+                                        <select asp-for="Site" id="Site" name="Site" class="form-control">
+                                            <option value="0" selected="" disabled="">Select site</option>
+                                            <option value="Boyndie">Boyndie</option>
+                                            <option value="Buckley">Buckley</option>
+                                            <option value="Crewe">Crewe</option>
+                                            <option value="more than 20000$">Other</option>
+                                        </select>
+                                        <span asp-validation-for="Site" class="text-danger"></span>
+                                    </div>
+                                    </div>
+                                </div> 
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="cmplnt_ctgry" class="control-label">Complaint Category</label>
+                                            <select asp-for="cmplnt_ctgry" id="cmplnt_ctgry" name="cmplnt_ctgry" class="form-control">
+                                                <option value="none" selected="" disabled="">Select complaint category</option>
+                                                <option value="Foreign Body">Foreign Body</option>
+                                                <option value="Quality">Quality</option>
+                                                <option value="illustration">Other</option>
+                                            </select>
+                                            <span asp-validation-for="cmplnt_ctgry" class="text-danger"></span>
+                                        </div>
+                                        </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="cmplnt_src" class="control-label">Complaint Source</label>
+                                            <select asp-for="cmplnt_src" id="cmplnt_src" name="cmplnt_src" class="form-control">
+                                                <option value="0" selected="" disabled="">Select complaint source</option>
+                                                <option value="Glass">Glass</option>
+                                                <option value="Hair">Hair</option>
+                                                <option value="Infest">Infest</option>
+                                                <option value="Metal">Metal</option>
+                                                <option value="Plastic Hard">Plastic Hard</option>
+                                                <option value="Plastic Soft">Plastic Soft</option>
+                                                <option value="Seeds / Husk">Seeds / Husk</option>
+                                                <option value="Stem / Stalk">Stem / Stalk</option>
+                                                <option value="Stone">Stone</option>
+                                                <option value="String">String</option>
+                                                <option value="Wood">Wood</option>
+                                                <option value="Appearance">Appearance</option>
+                                                <option value="Comp Missing">Comp Missing</option>
+                                                <option value="Dusty">Dusty</option>
+                                                <option value="Oat Flour">Oat Flour</option>
+                                                <option value="Mouldy">Mouldy</option>
+                                                <option value="Pack Fault">Pack Fault</option>
+                                                <option value="Smell">Smell</option>
+                                                <option value="Taint">Taint</option>
+                                                <option value="Taste">Taste</option>
+                                                <option value="Texture">Texture</option>
+                                                <option value="Other Foreign Body">Other Foreign Body</option>
+                                                <option value="Other Quality">Other Quality</option>
+                                            </select>
+                                            <span asp-validation-for="cmplnt_src" class="text-danger"></span>
+                                        </div>
+                                     </div>
+                                </div>
+                                
+                                <h4 class="form-section"><i class="icon-clipboard4 blue"></i> Product Info</h4>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="query">Search Product</label>
+                                            <input for="query" type="text" id="query" class="form-control" placeholder="Enter product code or description">
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <button type="button" class="btn btn-outline-info block" data-toggle="modal" data-target="#inlineForm">
+                                                Confirm product code to make sure they match
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="prdct_cde_mf" class="control-label">Product Code MornFlake</label>
+                                            <input asp-for="prdct_cde_mf" class="form-control" readonly required />
+                                            <div class="col-md-6">
+                                                <div id="searchResults6"></div>
+                                            </div>
+                                            <span asp-validation-for="prdct_cde_mf" class="text-danger"></span>
+                                        </div>
+                                </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="prdct_cde_rtlr" class="control-label">Product Code Retailer</label>
+                                            <input asp-for="prdct_cde_rtlr" class="form-control" />
+                                            <span asp-validation-for="prdct_cde_rtlr" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="prdct_desc" class="control-label">Product Description</label>
+                                    <textarea asp-for="prdct_desc" rows="5" class="form-control" readonly required></textarea>
+                                    <span asp-validation-for="prdct_desc" class="text-danger"></span>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="prdct_ctgry" class="control-label">Product Category</label>
+                                            <select asp-for="prdct_ctgry" id="prdct_ctgry" name="prdct_ctgry" class="form-control">
+                                                <option value="none" selected="" disabled="">Select complaint category</option>
+                                                <option value="Crisp">Crisp</option>
+                                                <option value="Flake">Flake</option>
+                                                <option value="Granola">Granola</option>
+                                                <option value="Muesli">Muesli</option>
+                                                <option value="Oats">Oats</option>
+                                                <option value="Pots">Pots</option>
+                                                <option value="Sachets">Sachets</option>
+                                                <option value="Squares">Squares</option>
+                                            </select>
+                                            <span asp-validation-for="prdct_ctgry" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="bbe_info" class="control-label">Best Before Info</label>
+                                            <input asp-for="bbe_info" class="form-control" />
+                                            <span asp-validation-for="bbe_info" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="jlenne_cde" class="control-label">Jlenne Code</label>
+                                            <input asp-for="jlenne_cde" class="form-control" />
+                                            <span asp-validation-for="jlenne_cde" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="Actn" class="control-label">Action</label>
+                                            <select asp-for="Actn" id="Actn" name="Actn" class="form-control">
+                                                <option value="none" selected="" disabled="">Select complaint category</option>
+                                                <option value="Closed">Closed</option>
+                                                <option value="No Reply Required">No Reply Required</option>
+                                                <option value="Reply Sent">Reply Sent</option>
+                                                <option value="Sent to Boyndie">Sent to Boyndie</option>
+                                                <option value="Sent to Buckley">Sent to Buckley</option>
+                                                <option value="Sent to QA">Sent to QA</option>
+                                                <option value="Uplifted">Uplifted</option>
+                                                <option value="Waiting for FB">Waiting for FeedBack</option>
+                                            </select>
+                                            <span asp-validation-for="Actn" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="bbe_dte" class="control-label">Best Before Date</label>
+                                            <input asp-for="bbe_dte" class="form-control" />
+                                            <span asp-validation-for="bbe_dte" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="cmplnt_dte" class="control-label">Complaint Date</label>
+                                            <input asp-for="cmplnt_dte" class="form-control" />
+                                            <span asp-validation-for="cmplnt_dte" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="tdy_dte" class="control-label">Today date</label>
+                                    <input asp-for="tdy_dte" class="form-control" />
+                                    <span asp-validation-for="tdy_dte" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <input type="submit" value="Save" class="btn btn-primary" />
+                                    <a class="btn btn-warning mr-1" asp-action="Index">Back to List</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
