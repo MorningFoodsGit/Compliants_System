@@ -28,4 +28,8 @@
     <None Include="wwwroot\images\logo\robust-logo-small.png" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Shared\Component\Menu\" />
+  </ItemGroup>
+
 </Project>
