@@ -37,7 +37,7 @@ namespace WebApplication2.Controllers
           string filterComplainantRetailer,
           string filterComplainantSite,
           string filterProductDes,
-          string filterProductCat,
+          string[] filterProductCat,
           string filterProductMf,
           string filterComplaintCat,
           int? pageNumber)
@@ -114,9 +114,9 @@ namespace WebApplication2.Controllers
             {
                 complaints = complaints.Where(c => c.prdct_desc == filterProductDes);
             }
-            if (!string.IsNullOrEmpty(filterProductCat))
+            if (filterProductCat != null && filterProductCat.Length > 0)
             {
-                complaints = complaints.Where(c => c.prdct_ctgry == filterProductCat);
+                complaints = complaints.Where(c => filterProductCat.Contains(c.prdct_ctgry));
             }
             if (!string.IsNullOrEmpty(filterProductMf))
             {
@@ -174,7 +174,7 @@ namespace WebApplication2.Controllers
             // Retrieve all complaints and store them in ViewBag
             ViewBag.AllComplaints = await _context.cmplnt_base.ToListAsync();
 
-            int pageSize = 10;
+            int pageSize = 20;
             return View(await PaginatedList<cmplnt_base>.CreateAsync(complaints.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 

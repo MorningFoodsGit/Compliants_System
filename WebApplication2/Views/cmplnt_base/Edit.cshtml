@@ -4,6 +4,12 @@
     ViewData["Title"] = "Edit";
 }
 
+@await Component.InvokeAsync("Menu", new { activeMenuItem = "View Complaint" })
+<!-- / main menu-->
+<div class="app-content content container-fluid">
+    <div class="content-wrapper">
+        <div class="content-header row"></div>
+        <div class="content-body">
 <div class="row">
     <div class="col-xs-12">
         <div class="card">
@@ -266,6 +272,9 @@
             </div>
         </div>
     </div>
+</div>
+</div>
+</div>
 </div>
 
 
