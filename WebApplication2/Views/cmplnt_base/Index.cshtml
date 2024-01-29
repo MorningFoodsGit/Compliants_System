@@ -5,6 +5,7 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_layout.cshtml";
+    string filterComplainantSite = ViewBag.FilterComplainantSite as string ?? "";
 }
 
 @await Component.InvokeAsync("Menu", new { activeMenuItem = "View Complaint" })
@@ -58,7 +59,7 @@
                         </div>
                     }
                     <div class="row col-md-3 offset-md-2">
-                        <a class="btn btn-secondary mr-1" asp-action="Index">Reload</a>
+                        <a class="btn btn-secondary mr-1 bg-info bg-lighten-5" asp-action="Index">Reload</a>
                       </div>                    
                   </div>
             </div>       
@@ -292,7 +293,8 @@
                     @if (Model.HasNextPage)
                     {
                         <li class="page-item">
-                            <a class="page-link" href="?pageNumber=@(Model.PageIndex + 1)" aria-label="Next">
+                            <a class="page-link" href="?pageNumber=@(Model.PageIndex + 1)
+                            &filterComplainantSite=@ViewBag.FilterComplainantSite" aria-label="Next">
                                 <span aria-hidden="true">Next &raquo;</span>
                             </a>
                         </li>
@@ -305,8 +307,6 @@
                 </ul>
             </nav>
         </div>
-
-        <hr />
     </div>
     </div>
     </div>
@@ -314,7 +314,7 @@
     </div>
 
 <div class="modal fade text-xs-left" id="defaultSize" tabindex="-1" role="dialog" aria-labelledby="myModalLabel19" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -328,12 +328,15 @@
                     <div class="form-group">
                     <input type="text" name="searchString" />
                     </div>
+                    <div class="form-group">
+                     <input type="checkbox" class="form" id="selectAllName" /> <label for="customRange2">Select All</label>
+                    </div>
                     <label>Filter By: </label>
-                    <div class="form-group checkbox-container" style="max-height: 150px; overflow-y: auto;">
-                     @foreach (var complaint in ViewBag.AllComplaints)
-                      {
-                      <input type="checkbox" name="filterComplainantName" id="filterComplainantName" value="@complaint.cstmr_nme" /> @complaint.cstmr_nme<br />
-                      }
+                    <div class="form-group checkbox-container" id="checkboxContainer" style="max-height: 150px; overflow-y: auto;">
+                     @foreach (var option in ViewBag.FilterComplainantNameOptions)
+                     {
+                       <input type="checkbox" name="filterComplainantName" id="filterComplainantName" value="@option" /> @option<br />
+                     }
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -360,10 +363,16 @@
                     <input type="text" name="searchString" />
                     </div>
                     <label>Filter By: </label>
+                    <div class="form-group">
+                     <input type="checkbox" class="form" id="selectAllRefrence" /> <label for="customRange2">Select All</label>
+                    </div>
                     <div class="form-group checkbox-container" style="max-height: 150px; overflow-y: auto;">
-                     @foreach (var complaint in ViewBag.AllComplaints)
+                      @foreach (var complaint in ViewBag.AllComplaints)
                       {
-                      <input type="checkbox" name="filterComplainantRefrence" id="filterComplainantRefrence" value="@complaint.cstmr_ref_rtlr" /> @complaint.cstmr_ref_rtlr<br />
+                        if (!string.IsNullOrEmpty(complaint.cstmr_ref_rtlr))
+                         {
+                           <input type="checkbox" name="filterComplainantRefrence" id="filterComplainantRefrence" value="@complaint.cstmr_ref_rtlr" /> @complaint.cstmr_ref_rtlr<br />
+                         }
                       }
                     </div>
                 </div>
@@ -390,6 +399,9 @@
                     <label>Complainant Description</label>
                     <div class="form-group">
                     <input type="text" name="searchString" />
+                    </div>
+                    <div class="form-group">
+                     <input type="checkbox" class="form" id="selectAllDescription" /> <label for="customRange2">Select All</label>
                     </div>
                     <label>Filter By: </label>
                     <div class="form-group checkbox-container" style="max-height: 150px; overflow-y: auto;">
@@ -423,12 +435,15 @@
                     <div class="form-group">
                     <input type="text" name="searchString" />
                     </div>
+                    <div class="form-group">
+                     <input type="checkbox" class="form" id="selectAllRetailer" /> <label for="customRange2">Select All</label>
+                    </div>
                     <label>Filter By: </label>
                     <div class="form-group checkbox-container" style="max-height: 150px; overflow-y: auto;">
-                     @foreach (var complaint in ViewBag.AllComplaints)
-                      {
-                      <input type="checkbox" name="filterComplainantRetailer" id="filterComplainantRetailer" value="@complaint.rtlr" /> @complaint.rtlr<br />
-                      }
+                     @foreach (var option in ViewBag.FilterComplainantRetailerOptions)
+                     {
+                       <input type="checkbox" name="filterComplainantRetailer" id="filterComplainantRetailer" value="@option" /> @option<br />
+                     }
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -455,13 +470,17 @@
                     <div class="form-group">
                     <input type="text" name="searchString" />
                     </div>
+                    <div class="form-group">
+                     <input type="checkbox" class="form" id="selectAllSite" /> <label for="customRange2">Select All</label>
+                    </div>
                     <label>Filter By: </label>
                     <div class="form-group checkbox-container" style="max-height: 150px; overflow-y: auto;">
-                     @foreach (var complaint in ViewBag.AllComplaints)
-                      {
-                      <input type="checkbox" name="filterComplainantSite" id="filterComplainantSite" value="@complaint.Site" /> @complaint.Site<br />
-                      }
+                     @foreach (var option in ViewBag.FilterComplainantSiteOptions)
+                     {
+                       <input type="checkbox" name="filterComplainantSite" id="filterComplainantSite" value="@option" /> @option<br />
+                     }
                     </div>
+                    <input type="hidden" name="pageNumber" value="@Model.PageIndex" />
                 </div>
                 <div class="modal-footer">
                     <input type="reset" class="btn btn-secondary" data-dismiss="modal" value="Close">
@@ -487,12 +506,15 @@
                     <div class="form-group">
                     <input type="text" name="searchString" />
                     </div>
+                    <div class="form-group">
+                     <input type="checkbox" class="form" id="selectAllDescription" /> <label for="customRange2">Select All</label>
+                    </div>
                     <label>Filter By: </label>
                     <div class="form-group checkbox-container" style="max-height: 150px; overflow-y: auto;">
-                     @foreach (var complaint in ViewBag.AllComplaints)
-                      {
-                      <input type="checkbox" name="filterProductDes" id="filterProductDes" value="@complaint.prdct_desc" /> @complaint.prdct_desc<br />
-                      }
+                     @foreach (var option in ViewBag.FilterComplainantProductDesOptions)
+                     {
+                       <input type="checkbox" name="filterProductDes" id="filterProductDes" value="@option" /> @option<br />
+                     }
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -517,14 +539,17 @@
                 <div class="modal-body">
                     <label>Product Category</label>
                     <div class="form-group">
-                    <input type="text" name="searchString" />
+                    <input type="text" id="query" name="searchString" />
+                    </div>
+                    <div class="form-group">
+                     <input type="checkbox" class="form" id="selectAllCategory" /> <label for="customRange2">Select All</label>
                     </div>
                     <label>Filter By: </label>
                     <div class="form-group checkbox-container" style="max-height: 150px; overflow-y: auto;">
-                     @foreach (var complaint in ViewBag.AllComplaints)
-                      {
-                      <input type="checkbox" name="filterProductCat[]" id="filterProductCat" value="@complaint.prdct_ctgry" /> @complaint.prdct_ctgry<br />
-                      }
+                     @foreach (var option in ViewBag.FilterComplainantCategoryOptions)
+                     {
+                       <input type="checkbox" name="filterProductCat" id="filterProductCat" value="@option" /> @option<br />
+                     }
                     </div>
                     <input type="hidden" name="pageNumber" value="@ViewBag.PageNumber" />
                 </div>
@@ -551,6 +576,9 @@
                     <label>Product Code Mornflake</label>
                     <div class="form-group">
                     <input type="text" name="searchString" />
+                    </div>
+                    <div class="form-group">
+                     <input type="checkbox" class="form" id="selectAllCode" /> <label for="customRange2">Select All</label>
                     </div>
                     <label>Filter By: </label>
                     <div class="form-group checkbox-container" style="max-height: 150px; overflow-y: auto;">
@@ -590,10 +618,10 @@
                     </div>
                     <label>Filter By: </label>
                     <div class="form-group checkbox-container" style="max-height: 150px; overflow-y: auto;">
-                     @foreach (var complaint in ViewBag.AllComplaints)
-                      {
-                      <input type="checkbox" name="filterComplaintCat" id="filterComplaintCat" value="@complaint.cmplnt_ctgry" /> @complaint.cmplnt_ctgry<br />
-                      }
+                     @foreach (var option in ViewBag.FilterComplainantComCatOptions)
+                     {
+                       <input type="checkbox" name="filterComplaintCat" id="filterComplaintCat" value="@option" /> @option<br />
+                     }
                     </div>
                     <input type="hidden" name="pageNumber" value="@ViewBag.PageNumber" />
                 </div>
@@ -608,18 +636,93 @@
 
 @section Scripts {
 <script>
-       // Script to handle form submission for sorting
-       document.querySelector('form').addEventListener('submit', function (e) {
-           const sortOrderDropdown = document.querySelector('#sortOrder');
-           const userSortInput = document.querySelector('input[name="userSortInput"]');
-           if (sortOrderDropdown.value !== '' && userSortInput.value !== '') {
-               // If both dropdown and user input are provided, clear the user input to avoid conflicts
-               userSortInput.value = '';
-           }
-       });
+    // Script to handle form submission for sorting
+    $(document).ready(function () {
+        $('#selectAllName').click(function () {
+            $('input[name="filterComplainantName"]').prop('checked', this.checked);
+            toggleButtonVisibility();
+        });
+        $('#selectAllRefrence').click(function () {
+            $('input[name="filterComplainantRefrence"]').prop('checked', this.checked);
+            toggleButtonVisibility();
+        });
+        $('#selectAllDescription').click(function () {
+            $('input[name="filterComplainantDescription"]').prop('checked', this.checked);
+            toggleButtonVisibility(); 
+        });
+        $('#selectAllRetailer').click(function () {
+            $('input[name="filterComplainantRetailer"]').prop('checked', this.checked);
+            toggleButtonVisibility(); 
+        });
+        $('#selectAllSite').click(function () {
+            $('input[name="filterComplainantSite"]').prop('checked', this.checked);
+            toggleButtonVisibility();
+        });
+        $('#selectAllCategory').click(function () {
+            $('input[name="filterProductCat"]').prop('checked', this.checked);
+            toggleButtonVisibility();
+        });
+        $('#selectAllCode').click(function () {
+            $('input[name="filterProductMf"]').prop('checked', this.checked);
+            toggleButtonVisibility();
+        });
+        $('#selectAllDescription').click(function () {
+            $('input[name="filterProductDes"]').prop('checked', this.checked);
+            toggleButtonVisibility();
+        });
+    });
 </script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const searchInput = document.getElementById("query");
+        const checkboxContainer = document.querySelector(".checkbox-container");
+        const checkboxes = checkboxContainer.querySelectorAll('input[type="checkbox"]');
+        const selectAllCheckbox = document.getElementById("selectAllName");
 
-    <!-- Include jQuery library if not already included -->
+        // Store the original checkboxes for reference
+        const originalCheckboxes = Array.from(checkboxes);
+
+        searchInput.addEventListener("input", function () {
+            const searchString = searchInput.value.trim().toLowerCase();
+
+            // Clear existing checkboxes
+            checkboxContainer.innerHTML = "";
+
+            // Filter checkboxes based on the search string
+            const filteredCheckboxes = originalCheckboxes.filter(checkbox => {
+                const optionText = checkbox.nextElementSibling.textContent.toLowerCase();
+                return optionText.includes(searchString);
+            });
+
+            // Append the filtered checkboxes
+            filteredCheckboxes.forEach(checkbox => {
+                checkboxContainer.appendChild(checkbox.parentElement.cloneNode(true));
+            });
+
+            // Add event listeners to the new checkboxes
+            const newCheckboxes = checkboxContainer.querySelectorAll('input[type="checkbox"]');
+            newCheckboxes.forEach(newCheckbox => {
+                newCheckbox.addEventListener("change", updateSelectAll);
+            });
+
+            // Update the "Select All" checkbox
+            updateSelectAll();
+        });
+
+        selectAllCheckbox.addEventListener("change", function () {
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = selectAllCheckbox.checked;
+            });
+        });
+
+        function updateSelectAll() {
+            // Update the "Select All" checkbox based on the state of the filtered checkboxes
+            const newCheckboxes = checkboxContainer.querySelectorAll('input[type="checkbox"]');
+            const allChecked = Array.from(newCheckboxes).every(checkbox => checkbox.checked);
+            selectAllCheckbox.checked = allChecked;
+        }
+    });
+</script>
 
 
 }

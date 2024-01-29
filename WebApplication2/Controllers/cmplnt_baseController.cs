@@ -30,15 +30,15 @@ namespace WebApplication2.Controllers
           string searchString,
           string filterString,
           bool? sortComplainantName,
-          string filterComplainantName,
-          string filterComplainantDescription,
-          string filterComplainantRefrence,
+          string[] filterComplainantName,
+          string[] filterComplainantDescription,
+          string[] filterComplainantRefrence,
           string filterComplainantMF,
-          string filterComplainantRetailer,
+          string[] filterComplainantRetailer,
           string filterComplainantSite,
-          string filterProductDes,
+          string[] filterProductDes,
           string[] filterProductCat,
-          string filterProductMf,
+          string[] filterProductMf,
           string filterComplaintCat,
           int? pageNumber)
         {
@@ -84,43 +84,83 @@ namespace WebApplication2.Controllers
                 complaints = complaints.OrderByDescending(c => c.cstmr_nme);
             }
 
-
+            // Get distinct values for filterComplainantRefrence
+            ViewBag.FilterComplainantRefrenceOptions = await _context.cmplnt_base
+                .Where(c => c.cstmr_ref_rtlr != null)
+                .Select(c => c.cstmr_ref_rtlr)
+                .Distinct()
+                .ToListAsync();
+            // Get distinct values for filterComplainantName
+            ViewBag.FilterComplainantNameOptions = await _context.cmplnt_base
+                .Where(c => c.cstmr_nme != null)
+                .Select(c => c.cstmr_nme)
+                .Distinct()
+                .ToListAsync();
+            // Get distinct values for filterComplainantSite
+            ViewBag.FilterComplainantSiteOptions = await _context.cmplnt_base
+                .Where(c => c.Site != null)
+                .Select(c => c.Site)
+                .Distinct()
+                .ToListAsync();
+            // Get distinct values for filterComplainantRetailer
+            ViewBag.FilterComplainantRetailerOptions = await _context.cmplnt_base
+                .Where(c => c.rtlr != null)
+                .Select(c => c.rtlr)
+                .Distinct()
+                .ToListAsync();
+            // Get distinct values for filterComplainantCategory
+            ViewBag.FilterComplainantCategoryOptions = await _context.cmplnt_base
+                .Where(c => c.prdct_ctgry != null)
+                .Select(c => c.prdct_ctgry)
+                .Distinct()
+                .ToListAsync();
+            // Get distinct values for filterComplainantPrdctDescription
+            ViewBag.FilterComplainantProductDesOptions = await _context.cmplnt_base
+                .Where(c => c.prdct_desc != null)
+                .Select(c => c.prdct_desc)
+                .Distinct()
+                .ToListAsync();
+            ViewBag.FilterComplainantComCatOptions = await _context.cmplnt_base
+                .Where(c => c.cmplnt_ctgry != null)
+                .Select(c => c.cmplnt_ctgry)
+                .Distinct()
+                .ToListAsync();
             // Apply filtering based on checkboxes
-            if (!string.IsNullOrEmpty(filterComplainantName))
+            if (filterComplainantName != null && filterComplainantName.Length > 0)
             {
-                complaints = complaints.Where(c => c.cstmr_nme == filterComplainantName);
+                complaints = complaints.Where(c => filterComplainantName.Contains(c.cstmr_nme));
             }
-            if (!string.IsNullOrEmpty(filterComplainantDescription))
+            if (filterComplainantDescription != null && filterComplainantDescription.Length > 0)
             {
-                complaints = complaints.Where(c => c.cmplnt_desc == filterComplainantDescription);
+                complaints = complaints.Where(c => filterComplainantDescription.Contains(c.cmplnt_desc));
             }
-            if (!string.IsNullOrEmpty(filterComplainantRefrence))
+            if (filterComplainantRefrence != null && filterComplainantRefrence.Length > 0)
             {
-                complaints = complaints.Where(c => c.cstmr_ref_rtlr == filterComplainantRefrence);
+                complaints = complaints.Where(c => filterComplainantRefrence.Contains(c.cstmr_ref_rtlr));
             }
             if (!string.IsNullOrEmpty(filterComplainantMF))
             {
                 complaints = complaints.Where(c => c.cstmr_ref_mf == filterComplainantMF);
             }
-            if (!string.IsNullOrEmpty(filterComplainantRetailer))
+            if (filterComplainantRetailer != null && filterComplainantRetailer.Length > 0)
             {
-                complaints = complaints.Where(c => c.rtlr == filterComplainantRetailer);
+                complaints = complaints.Where(c => filterComplainantRetailer.Contains(c.rtlr));
             }
             if (!string.IsNullOrEmpty(filterComplainantSite))
             {
                 complaints = complaints.Where(c => c.Site == filterComplainantSite);
             }
-            if (!string.IsNullOrEmpty(filterProductDes))
+            if (filterProductDes != null && filterProductDes.Length > 0)
             {
-                complaints = complaints.Where(c => c.prdct_desc == filterProductDes);
+                complaints = complaints.Where(c => filterProductDes.Contains(c.prdct_desc));
             }
             if (filterProductCat != null && filterProductCat.Length > 0)
             {
                 complaints = complaints.Where(c => filterProductCat.Contains(c.prdct_ctgry));
             }
-            if (!string.IsNullOrEmpty(filterProductMf))
+            if (filterProductMf != null && filterProductMf.Length > 0)
             {
-                complaints = complaints.Where(c => c.prdct_cde_mf == filterProductMf);
+                complaints = complaints.Where(c => filterProductMf.Contains(c.prdct_cde_mf));
             }
             if (!string.IsNullOrEmpty(filterComplaintCat))
             {
@@ -173,6 +213,7 @@ namespace WebApplication2.Controllers
 
             // Retrieve all complaints and store them in ViewBag
             ViewBag.AllComplaints = await _context.cmplnt_base.ToListAsync();
+            ViewBag.FilterComplainantSite = filterComplainantSite;
 
             int pageSize = 20;
             return View(await PaginatedList<cmplnt_base>.CreateAsync(complaints.AsNoTracking(), pageNumber ?? 1, pageSize));
