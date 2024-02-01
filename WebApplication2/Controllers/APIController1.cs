@@ -14,10 +14,11 @@ namespace WebApplication2.Controllers
 	{
 		private readonly ProductDbContext _context;
 
-		public SearchExternalDatabaseController(ProductDbContext context)
+        public SearchExternalDatabaseController(ProductDbContext context)
 		{
 			_context = context;
-		}
+
+        }
 
 		[HttpGet]
 		public async Task<IActionResult> GetSearchResults(string query)
@@ -32,5 +33,6 @@ namespace WebApplication2.Controllers
 
 			return Ok(results);
 		}
-	}
+      
+    }
 }

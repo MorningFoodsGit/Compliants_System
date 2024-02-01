@@ -3,7 +3,7 @@ google.charts.setOnLoadCallback(fetchAndPlotData);
 
 function fetchAndPlotData() {
     $.ajax({
-        url: '/ControllerName/GetRetailerQuantities', // Adjust the URL based on your controller
+        url: '/cmplnt_base/GetRetailerQuantities', // Adjust the URL based on your controller
         type: 'GET',
         dataType: 'json',
         success: function (data) {

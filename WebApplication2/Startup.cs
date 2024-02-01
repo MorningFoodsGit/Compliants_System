@@ -1,18 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WebApplication2.Data;
-
-using Microsoft.AspNetCore.Identity;
-
 using Microsoft.AspNetCore.Mvc;
-
-using Microsoft.EntityFrameworkCore;
-
 using Microsoft.Extensions.DependencyInjection;
-
 using Microsoft.Extensions.Hosting;
-
-using WebApplication2.Data;
 
 
 namespace WebApplication2
