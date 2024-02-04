@@ -113,6 +113,18 @@
                             </span>
                           </th>
                           <th>
+                            <span class="media-body">Product Description</span>
+                            <span class="media-right valign-middle">
+                              <a
+                                class="btn btn-sm"
+                                data-toggle="modal"
+                                data-target="#small6"
+                              >
+                                <i class="icon-filter black"></i>
+                              </a>
+                            </span>
+                          </th>
+                          <th>
                             <span class="media-body">Retailer</span>
                             <span class="media-right valign-middle">
                               <a
@@ -136,18 +148,7 @@
                               </a>
                             </span>
                           </th>
-                          <th>
-                            <span class="media-body">Product Description</span>
-                            <span class="media-right valign-middle">
-                              <a
-                                class="btn btn-sm"
-                                data-toggle="modal"
-                                data-target="#small6"
-                              >
-                                <i class="icon-filter black"></i>
-                              </a>
-                            </span>
-                          </th>
+                          
                           <th>
                             <span class="media-body">Product Category</span>
                             <span class="media-right valign-middle">
@@ -186,11 +187,67 @@
                               </a>
                             </span>
                           </th>
-                          <th>Complaint Source</th>
-                          <th>Action</th>
-                          <th>Julienne Code</th>
-                          <th>Best Before Date</th>
+                          <th>
+                            <span class="media-body">Complaint Source </span>
+                            <span class="media-right valign-middle">
+                              <a
+                                class="btn btn-sm"
+                                data-toggle="modal"
+                                data-target="#small10"
+                              >
+                                <i class="icon-filter black"></i>
+                              </a>
+                            </span>
+                          </th>
+                          <th>
+                            <span class="media-body">Action </span>
+                            <span class="media-right valign-middle">
+                              <a
+                                class="btn btn-sm"
+                                data-toggle="modal"
+                                data-target="#small11"
+                              >
+                                <i class="icon-filter black"></i>
+                              </a>
+                            </span>
+                          </th>
+                          <th>
+                            <span class="media-body">Julienne Code </span>
+                            <span class="media-right valign-middle">
+                              <a
+                                class="btn btn-sm"
+                                data-toggle="modal"
+                                data-target="#small13"
+                              >
+                                <i class="icon-filter black"></i>
+                              </a>
+                            </span>
+                          </th>
+                          <th>
+                            <span class="media-body">Before Date </span>
+                            <span class="media-right valign-middle">
+                              <a
+                                class="btn btn-sm"
+                                data-toggle="modal"
+                                data-target="#small12"
+                              >
+                                <i class="icon-filter black"></i>
+                              </a>
+                            </span>
+                          </th>
                           <th>Best Before Info</th>
+                          <th>
+                            <span class="media-body">Complaint Date </span>
+                            <span class="media-right valign-middle">
+                              <a
+                                class="btn btn-sm"
+                                data-toggle="modal"
+                                data-target="#small14"
+                              >
+                                <i class="icon-filter black"></i>
+                              </a>
+                            </span>
+                          </th>
                           <th>Complaint Date</th>
                           <th>Today's Date</th>
                           <th></th>
@@ -214,14 +271,15 @@
                                     <a asp-action="Edit" asp-route-id="@item.cmplnt_ID"> @Html.DisplayFor(modelItem => item.cmplnt_desc)</a>
                             </td>
                             <td class="text-truncate">
+                                        @Html.DisplayFor(modelItem => item.prdct_desc)
+                            </td>
+                            <td class="text-truncate">
                                     @Html.DisplayFor(modelItem => item.rtlr)
                             </td>
                             <td class="text-truncate">
                                     @Html.DisplayFor(modelItem => item.Site)
                             </td>
-                            <td class="text-truncate">
-                                        @Html.DisplayFor(modelItem => item.prdct_desc)
-                            </td>
+                            
                             <td class="text-truncate">
                                     @Html.DisplayFor(modelItem => item.prdct_ctgry)
                             </td>
@@ -633,6 +691,178 @@
         </div>
     </div>
 </div>
+// Newly added filters
+<div class="modal fade text-xs-left" id="small10" tabindex="-1" role="dialog" aria-labelledby="myModalLabel29" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel29"><i class="icon-filter black"></i> Filter</h4>
+            </div>
+            <form method="post" action="@Url.Action("Index")">
+                <div class="modal-body">
+                    <label>Complaint Source</label>
+                    <div class="form-group">
+                        <input type="text" name="searchString" />
+                    </div>
+                    <label>Filter By: </label>
+                    <div class="form-group checkbox-container" style="max-height: 150px; overflow-y: auto;">
+                        @foreach (var complaint in ViewBag.FilterCompliantSource)
+                        {
+                            <input type="checkbox" name="filterCompliantSrc" id="filterCompliantSrc" value="@complaint" /> @complaint
+
+                            <br />
+                        }
+                    </div>
+                    <input type="hidden" name="pageNumber" value="@ViewBag.PageNumber" />
+                </div>
+                <div class="modal-footer">
+                    <input type="reset" class="btn btn-secondary" data-dismiss="modal" value="Close">
+                    <input type="submit" class="btn btn-primary" value="Filter">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade text-xs-left" id="small11" tabindex="-1" role="dialog" aria-labelledby="myModalLabel30" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel30"><i class="icon-filter black"></i> Filter</h4>
+            </div>
+            <form method="post" action="@Url.Action("Index")">
+                <div class="modal-body">
+                    <label>Action</label>
+                    <div class="form-group">
+                        <input type="text" name="searchString" />
+                    </div>
+                    <label>Filter By: </label>
+                    <div class="form-group checkbox-container" style="max-height: 150px; overflow-y: auto;">
+                        @foreach (var complaint in ViewBag.FilterCompliantAction)
+                        {
+                            <input type="checkbox" name="filterCompliantAction" id="filterCompliantAction" value="@complaint" /> @complaint
+
+                            <br />
+                        }
+                    </div>
+                    <input type="hidden" name="pageNumber" value="@ViewBag.PageNumber" />
+                </div>
+                <div class="modal-footer">
+                    <input type="reset" class="btn btn-secondary" data-dismiss="modal" value="Close">
+                    <input type="submit" class="btn btn-primary" value="Filter">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade text-xs-left" id="small12" tabindex="-1" role="dialog" aria-labelledby="myModalLabel31" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel31"><i class="icon-filter black"></i> Filter</h4>
+            </div>
+            <form method="post" action="@Url.Action("Index")">
+                <div class="modal-body">
+                    <label>Best Before</label>
+                    <div class="form-group">
+                        <input type="date" name="searchString" />
+                    </div>
+                    <label>Filter By: </label>
+                    <div class="form-group checkbox-container" style="max-height: 150px; overflow-y: auto;">
+                        @foreach (var complaint in ViewBag.FilterBestBefore)
+                        {
+                            <input type="checkbox" name="" id="" value="@complaint" /> @complaint
+
+                            <br />
+                        }
+                    </div>
+                    <input type="hidden" name="pageNumber" value="@ViewBag.PageNumber" />
+                </div>
+                <div class="modal-footer">
+                    <input type="reset" class="btn btn-secondary" data-dismiss="modal" value="Close">
+                    <input type="submit" class="btn btn-primary" value="Filter">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade text-xs-left" id="small13" tabindex="-1" role="dialog" aria-labelledby="myModalLabel32" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel32"><i class="icon-filter black"></i> Filter</h4>
+            </div>
+            <form method="post" action="@Url.Action("Index")">
+                <div class="modal-body">
+                    <label>Julienne Code</label>
+                    <div class="form-group">
+                        <input type="text" name="searchString" />
+                    </div>
+                    <label>Filter By: </label>
+                    <div class="form-group checkbox-container" style="max-height: 150px; overflow-y: auto;">
+                        @foreach (var complaint in ViewBag.FilterJulienneCode)
+                        {
+                            <input type="checkbox" name="" id="" value="@complaint" /> @complaint
+
+                            <br />
+                        }
+                    </div>
+                    <input type="hidden" name="pageNumber" value="@ViewBag.PageNumber" />
+                </div>
+                <div class="modal-footer">
+                    <input type="reset" class="btn btn-secondary" data-dismiss="modal" value="Close">
+                    <input type="submit" class="btn btn-primary" value="Filter">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade text-xs-left" id="small13" tabindex="-1" role="dialog" aria-labelledby="myModalLabel32" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel32"><i class="icon-filter black"></i> Filter</h4>
+            </div>
+            <form method="post" action="@Url.Action("Index")">
+                <div class="modal-body">
+                    <label>Compliant Date</label>
+                    <div class="form-group">
+                        <input type="date" name="searchString" />
+                    </div>
+                    <label>Filter By: </label>
+                    <div class="form-group checkbox-container" style="max-height: 150px; overflow-y: auto;">
+                        @foreach (var complaint in ViewBag.FilterBestBefore)
+                        {
+                            <input type="checkbox" name="" id="" value="@complaint" /> @complaint
+
+                            <br />
+                        }
+                    </div>
+                    <input type="hidden" name="pageNumber" value="@ViewBag.PageNumber" />
+                </div>
+                <div class="modal-footer">
+                    <input type="reset" class="btn btn-secondary" data-dismiss="modal" value="Close">
+                    <input type="submit" class="btn btn-primary" value="Filter">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 
 @section Scripts {
     @{

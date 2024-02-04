@@ -26,7 +26,8 @@ namespace WebApplication2.Controllers
         public async Task<IActionResult> Index(   string sortOrder, string currentFilter, string searchString, string filterString,
           bool? sortComplainantName, string[] filterComplainantName, string[] filterComplainantDescription, string[] filterComplainantRefrence,
           string filterComplainantMF, string[] filterComplainantRetailer, string filterComplainantSite, string[] filterProductDes,
-          string[] filterProductCat, string[] filterProductMf, string filterComplaintCat, int? pageNumber)
+          string[] filterProductCat, string[] filterProductMf, string[] filterCompliantSrc, string[] filterCompliantAction,
+          string filterComplaintCat, int? pageNumber)
         {
             ViewData["CurrentSort"] = sortOrder;
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
@@ -51,6 +52,11 @@ namespace WebApplication2.Controllers
                     c.Site.Contains(searchString) ||
                     c.Actn.Contains(searchString) ||
                     c.cmplnt_desc.Contains(searchString) ||
+                    c.prdct_ctgry.Contains(searchString) ||
+                    c.prdct_desc.Contains(searchString) ||
+                    c.prdct_cde_mf.Contains(searchString) ||
+                    c.cstmr_ref_rtlr.Contains(searchString) ||
+                    c.cmplnt_src.Contains(searchString) ||
                     c.cmplnt_dte.ToString().Contains(searchString));
             }
             // Apply sorting based on checkboxes and sort parameters
@@ -104,8 +110,23 @@ namespace WebApplication2.Controllers
 				.Select(c => c.prdct_desc)
 				.Distinct()
 				.ToListAsync();
-			// Apply filtering based on checkboxes
-			if (filterComplainantName != null && filterComplainantName.Length > 0)
+            ViewBag.FilterCompliantSource = await _context.cmplnt_base
+                .Where(c => c.cmplnt_src != null)
+                .Select(c => c.cmplnt_src)
+                .Distinct()
+                .ToListAsync();
+            ViewBag.FilterCompliantAction = await _context.cmplnt_base
+                .Where(c => c.Actn != null)
+                .Select(c => c.Actn)
+                .Distinct()
+                .ToListAsync();
+            ViewBag.FilterJulienneCode = await _context.cmplnt_base
+                .Where(c => c.jlenne_cde != null)
+                .Select(c => c.jlenne_cde)
+                .Distinct()
+                .ToListAsync();
+            // Apply filtering based on checkboxes
+            if (filterComplainantName != null && filterComplainantName.Length > 0)
             { complaints = complaints.Where(c => filterComplainantName.Contains(c.cstmr_nme)); }
             if (filterComplainantDescription != null && filterComplainantDescription.Length > 0)
             { complaints = complaints.Where(c => filterComplainantDescription.Contains(c.cmplnt_desc)); }
@@ -125,6 +146,10 @@ namespace WebApplication2.Controllers
             { complaints = complaints.Where(c => filterProductMf.Contains(c.prdct_cde_mf)); }
             if (!string.IsNullOrEmpty(filterComplaintCat))
             { complaints = complaints.Where(c => c.cmplnt_ctgry == filterComplaintCat); }
+            if (filterCompliantSrc != null && filterCompliantSrc.Length > 0)
+            { complaints = complaints.Where(c => filterCompliantSrc.Contains(c.cmplnt_src)); }
+            if (filterCompliantAction != null && filterCompliantAction.Length > 0)
+            { complaints = complaints.Where(c => filterCompliantAction.Contains(c.Actn)); }
 
             switch (sortOrder)
             {

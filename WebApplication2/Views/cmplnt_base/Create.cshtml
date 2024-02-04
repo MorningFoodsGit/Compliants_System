@@ -246,10 +246,23 @@
 								</div>
 							</div>
 						</div>
+						<div class="row">
+							<div class="col-md-6">
 						<div class="form-group">
 							<label for="tdy_dte">Todays Date</label>
 							<input asp-for="tdy_dte" type="date" id="tdy_dte" class="form-control" name="tdy_dte" data-toggle="tooltip" data-trigger="hover" data-placement="top" data-title="Complaint Date">
 							<span asp-validation-for="tdy_dte" class="text-danger"></span>
+						</div>
+						</div>
+						<div class="col-md-6">
+						<div class="form-group">
+							<label>Select Image</label>
+							<label id="projectinput7" class="file center-block">
+							<input type="file" id="file">
+							<span class="file-custom"></span>
+							</label>
+					     </div>
+						 </div>
 						</div>
 					</div>
 
