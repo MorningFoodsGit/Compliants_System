@@ -28,4 +28,11 @@
     <None Include="wwwroot\images\logo\robust-logo-small.png" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Views\Shared\_ReportsScriptsPartial.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

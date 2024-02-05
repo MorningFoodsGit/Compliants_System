@@ -36,39 +36,39 @@
                 </ul>
             </li>
             <li class=" nav-item">
-                <a href="#"><i class="icon-stats-bars2 red"></i><span data-i18n="nav.project.main" class="menu-title">Analysis</span></a>
+                <a href="#"><i class="icon-stats-bars2 red"></i><span data-i18n="nav.project.main" class="menu-title">Analysis/Reports</span></a>
                 <ul class="menu-content">
-                    <li>
-                        <a class="menu-item" data-i18n="nav.login_register_pages.register_simple" asp-area="" asp-controller="Analysis" asp-action="Index">Unit Analysis</a>
+                    <li class="@((ViewBag.ActiveMenuItem == "Complaints Reports") ? "active" : "")">
+                        <a class="menu-item" data-i18n="nav.login_register_pages.register_simple" asp-area="" asp-controller="Analysis" asp-action="Index"><i class="icon-stats-bars2 red"></i> Complaints Reports</a>
                     </li>
                     <li>
-                        <a class="menu-item" data-i18n="nav.login_register_pages.register_simple" asp-area="" asp-controller="cmplnt_base" asp-action="Chart">Analysis</a>
+                        <a class="menu-item" data-i18n="nav.login_register_pages.register_simple" asp-area="" asp-controller="" asp-action=""><i class="icon-android-list red"></i> Complaints Analysis</a>
                     </li>
                     <li>
-                        <a href="recover-password.html" data-i18n="nav.login_register_pages.recover_password" class="menu-item">Individual Analysis</a>
-                    </li>
-                    <li>
-                        <a href="#" data-i18n="nav.error_pages.main" class="menu-item">Product Analysis</a>
+                        <a href="#" data-i18n="nav.error_pages.main" class="menu-item"><i class="icon-ios-cart red"></i> Retailers Analysis</a>
                         <ul class="menu-content">
                             <li>
-                                <a href="error-400.html" data-i18n="nav.error_pages.error_400" class="menu-item">Error 400</a>
+                                <a href="error-400.html" data-i18n="nav.error_pages.error_400" class="menu-item">MornFlake</a>
                             </li>
                             <li>
-                                <a href="error-401.html" data-i18n="nav.error_pages.error_401" class="menu-item">Error 401</a>
+                                <a href="error-401.html" data-i18n="nav.error_pages.error_401" class="menu-item">Aldi</a>
                             </li>
                             <li>
-                                <a href="error-403.html" data-i18n="nav.error_pages.error_403" class="menu-item">Error 403</a>
+                                <a href="error-403.html" data-i18n="nav.error_pages.error_403" class="menu-item">Asda</a>
                             </li>
                             <li>
-                                <a href="error-404.html" data-i18n="nav.error_pages.error_404" class="menu-item">Error 404</a>
+                                <a href="error-404.html" data-i18n="nav.error_pages.error_404" class="menu-item">Co-Op</a>
                             </li>
                             <li>
-                                <a href="error-500.html" data-i18n="nav.error_pages.error_500" class="menu-item">Error 500</a>
+                                <a href="error-500.html" data-i18n="nav.error_pages.error_500" class="menu-item">Sainsbury's</a>
+                            </li>
+                            <li>
+                                <a href="error-500.html" data-i18n="nav.error_pages.error_500" class="menu-item">Tesco</a>
                             </li>
                         </ul>
                     </li>
                     <li>
-                        <a href="under-maintenance.html" data-i18n="nav.other_pages.under_maintenance" class="menu-item">Generate</a>
+                        <a href="under-maintenance.html" data-i18n="nav.other_pages.under_maintenance" class="menu-item"><i class="icon-ios-barcode red"></i> Generate Report</a>
                     </li>
                 </ul>
             </li>

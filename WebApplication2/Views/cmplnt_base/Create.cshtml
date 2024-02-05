@@ -14,7 +14,7 @@
 <div class="col-md-12">
 	<div class="card">
 		<div class="card-header">
-			<h4 class="card-title">Raise Complaint</h4>
+						<h4 class="card-title"><i class="icon-birdpen"></i> Raise Complaint</h4>
 			<a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
 			<div class="heading-elements">
 				<ul class="list-inline mb-0">
@@ -135,7 +135,7 @@
 								<div class="form-group">
 									<label for="prdct_ctgry">Product Category</label>
 									<select asp-for="prdct_ctgry" id="prdct_ctgry" name="prdct_ctgry" class="form-control">
-										<option value="none" selected="" disabled="">Select complaint category</option>
+										<option value="none" selected="" disabled="">Select product category</option>
 										<option value="Crisp">Crisp</option>
 										<option value="Flake">Flake</option>
 										<option value="Granola">Granola</option>
@@ -195,11 +195,11 @@
 							<div class="col-md-6">
 								<div class="form-group">
 									<label for="cmplnt_ctgry">Complaint Category</label>
-									<input asp-for="cmplnt_ctgry" list="cmplnt_ctgrys" id="cmplnt_ctgry" name="cmplnt_ctgry" class="form-control" placeholder="Enter a Complaint Category" />
-									<datalist id="cmplnt_ctgrys">
+									<select asp-for="cmplnt_ctgry" id="cmplnt_ctgry" name="cmplnt_ctgry" class="form-control">
+										<option value="none" selected="" disabled="">Select complaint category</option>
 										<option value="Foreign Body">Foreign Body</option>
 										<option value="Quality">Quality</option>
-									</datalist>
+									</select>
 									<span asp-validation-for="cmplnt_ctgry" class="text-danger"></span>
 								</div>
 							</div>							

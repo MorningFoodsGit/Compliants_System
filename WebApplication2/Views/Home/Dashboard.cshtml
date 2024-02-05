@@ -18,8 +18,7 @@
                     <div class="media">
                         <div class="media-body text-xs-left">
                             <h3 class="pink"></h3>
-                            <div id="complaintCountDiv"></div>
-                            <span>Total Complaints</span>
+                            <div id="complaintCountDiv"></div>                           
                         </div>
                         <div class="media-right media-middle">
                             <i class="icon-bag2 pink font-large-2 float-xs-right"></i>
@@ -54,7 +53,6 @@
                         <div class="media-body text-xs-left">
                             <h3 class="deep-orange"></h3>
                             <div id="retailerCount"></div>
-                            <span>Retailers</span>
                         </div>
                         <div class="media-right media-middle">
                             <i class="icon-diagram deep-orange font-large-2 float-xs-right"></i>
@@ -69,12 +67,11 @@
             <div class="card-body">
                 <div class="card-block">
                     <div class="media">
-                        <div class="media-body text-xs-left">
-                            <h3 class="cyan">3</h3>
-                            <span>Support Tickets</span>
+                        <div class="media-body text-xs-left">                            
+                            <div id="categoryCountDiv"></div>
                         </div>
                         <div class="media-right media-middle">
-                            <i class="icon-ios-help-outline cyan font-large-2 float-xs-right"></i>
+                            <i class="icon-ios-box cyan font-large-2 float-xs-right"></i>
                         </div>
                     </div>
                 </div>
@@ -84,7 +81,6 @@
 </div>
 <!--/ stats -->
 <!--/ project charts -->
-
 <div class="row match-height">
     <div class="col-xl-4 col-lg-12">
         <div class="card">
@@ -96,7 +92,7 @@
                     <div class="p-2 media-body">
                         <h5 class="deep-orange">Reply Sent</h5>
                         <h5 id="actionCountResult2" class="text-bold-400">Loading...</h5>
-                        <progress id="actionCountProgress2" class="progress progress-sm progress-deep-orange mt-1 mb-0" value="0" max="200"></progress>
+                        <progress id="actionCountProgress2" class="progress progress-sm progress-deep-orange mt-1 mb-0" value="0" max="400"></progress>
                     </div>
                 </div>
             </div>
@@ -144,10 +140,13 @@
             </div>
             <div class="card-body">
                 <div class="card-block">
-                    <p>Complaints per Retailer. <span class="float-xs-right"><a class="" asp-area="" asp-controller="cmplnt_base" asp-action="Index">View all Complaints <i class="icon-arrow-right2"></i></a></span></p>
+                    <p>Complaints per Retailer. <span class="float-xs-right"><a class="btn btn-info btn-sm" asp-controller="cmplnt_base" asp-action="Index">View all Complaints <i class="icon-arrow-right2"></i></a></span></p>
                 </div>                        
                 <div class="chart-container" style="width: 80%; margin: auto;">
                     <div id="stacked-bar-chart"></div>                               
+                </div>
+                <div class="card-footer">
+                    <span class="float-xs-right"><a class="" asp-controller="Analysis" asp-action="Index">View Reports <i class="icon-stats-dots black"></i></a></span>
                 </div>
             </div>
         </div>
@@ -162,47 +161,21 @@
         await Html.RenderPartialAsync("_ChartScriptsPartial");     
     }
     <script src="https://www.google.com/jsapi" type="text/javascript"></script>
-   
+
     <script>
-        google.charts.load('current', { packages: ['corechart'] });
-        google.charts.setOnLoadCallback(fetchAndPlotData);
+     document.addEventListener("DOMContentLoaded", function () {
+    const categoryCountElement = document.getElementById("categoryCountDiv");
 
-        function fetchAndPlotData() {
-            $.ajax({
-                url: '/cmplnt_base/GetRetailerCategoryQuantities',
-                type: 'GET',
-                dataType: 'json',
-                success: function (data) {
-                    drawChart(data);
-                },
-                error: function (error) {
-                    console.log('Error:', error);
-                }
-            });
-        }
-
-        function drawChart(data) {
-            var dataTable = new google.visualization.DataTable();
-            dataTable.addColumn('string', 'Retailer');
-            dataTable.addColumn('number', 'Quantity');
-
-            // Assuming each data item has Retailer and Quantity properties
-            data.forEach(item => {
-                dataTable.addRow([item.Retailer + ' - ' + item.Category, item.Quantity]);
-            });
-
-            var options = {
-                title: 'Retailer Quantities by Product Category',
-                width: 800,
-                height: 400,
-                legend: { position: 'none' },
-                chartArea: { width: '70%' }
-            };
-
-            var chart = new google.visualization.BarChart(document.getElementById('retailerChart'));
-            chart.draw(dataTable, options);
-        }
+    // Make an AJAX request to the server API to get the product category count
+    fetch("/cmplnt_base/GetProductCatCount")
+        .then(response => response.json())
+        .then(count => {
+            categoryCountElement.textContent = `Number of Product Categories: ${count}`;
+        })
+        .catch(error => console.error("Error fetching product category count:", error));
+    });
     </script>
+
     <script>
         google.load('visualization', '1.0', {'packages':['corechart']});
 
@@ -214,22 +187,22 @@ function drawBarStacked() {
 
     // Create the data table.
     var data = google.visualization.arrayToDataTable([
-        ['Genre', 'MornFlake', 'ALDI', 'LIDL', 'Asda', 'Co-op', { role: 'annotation' } ],
-        ['Crisp', 10, 15, 25, 35, 45, ''],
-        ['Flake', 12, 20, 25, 32, 36, ''],
-        ['Granola', 5, 24, 20, 34, 17, ''],
-        ['Muesli', 18, 25, 30, 38, 24, ''],
-        ['Oats', 16, 22, 23, 28, 15, ''],
-        ['Pots', 8, 26, 20, 42, 30, ''],
-        ['Sachets', 24, 17, 24, 35, 14, ''],
-        ['Squares', 19, 12, 24, 45, 17, '']
+        ['Genre', 'MornFlake', 'ALDI', 'LIDL', 'Asda', 'Co-op', 'Sainsbury', 'Tesco', { role: 'annotation' } ],
+        ['Crisp', 10, 15, 25, 35, 45, 23, 45,  ''],
+        ['Flake', 12, 20, 25, 32, 36, 34, 55, ''],
+        ['Granola', 5, 24, 20, 34, 17, 24, 32, ''],
+        ['Muesli', 18, 25, 30, 38, 24, 13, 21, ''],
+        ['Oats', 16, 22, 23, 28, 15, 22, 36, ''],
+        ['Pots', 8, 26, 20, 42, 30, 31, 40, ''],
+        ['Sachets', 24, 17, 24, 35, 14, 37, 19, ''],
+        ['Squares', 19, 12, 24, 45, 17, 20, 50, '']
     ]);
 
     // Set chart options
     var options_bar_stacked = {
         height: 400,
         fontSize: 12,
-        colors: ['#f5cd05', '#05c9f5', '#FF847C', '#E84A5F', '#474747'],
+        colors: ['#f5bd05', '#05c9f5', '#edf505', '#6df505', '#19c3f7', '#f78c19', '#f72b19'],
         chartArea: {
             left: '5%',
             width: '90%',

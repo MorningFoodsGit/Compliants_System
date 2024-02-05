@@ -248,7 +248,6 @@
                               </a>
                             </span>
                           </th>
-                          <th>Complaint Date</th>
                           <th>Today's Date</th>
                           <th></th>
                         </tr>
@@ -676,9 +675,9 @@
                     </div>
                     <label>Filter By: </label>
                     <div class="form-group checkbox-container" style="max-height: 150px; overflow-y: auto;">
-                     @foreach (var complaint in ViewBag.AllComplaints)
+                     @foreach (var complaint in ViewBag.FilterCompliantCat)
                       {
-                      <input type="checkbox" name="filterComplaintCat" id="filterComplaintCat" value="@complaint.cmplnt_ctgry" /> @complaint.cmplnt_ctgry<br />
+                      <input type="checkbox" name="filterComplaintCat" id="filterComplaintCat" value="@complaint" /> @complaint<br />
                       }
                     </div>
                     <input type="hidden" name="pageNumber" value="@ViewBag.PageNumber" />
@@ -777,12 +776,7 @@
                     </div>
                     <label>Filter By: </label>
                     <div class="form-group checkbox-container" style="max-height: 150px; overflow-y: auto;">
-                        @foreach (var complaint in ViewBag.FilterBestBefore)
-                        {
-                            <input type="checkbox" name="" id="" value="@complaint" /> @complaint
-
-                            <br />
-                        }
+                        
                     </div>
                     <input type="hidden" name="pageNumber" value="@ViewBag.PageNumber" />
                 </div>
@@ -845,12 +839,7 @@
                     </div>
                     <label>Filter By: </label>
                     <div class="form-group checkbox-container" style="max-height: 150px; overflow-y: auto;">
-                        @foreach (var complaint in ViewBag.FilterBestBefore)
-                        {
-                            <input type="checkbox" name="" id="" value="@complaint" /> @complaint
-
-                            <br />
-                        }
+                        
                     </div>
                     <input type="hidden" name="pageNumber" value="@ViewBag.PageNumber" />
                 </div>

@@ -1,63 +1,39 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const actionCountResult = document.getElementById("actionCountResult");
-    const actionCountProgress = document.getElementById("actionCountProgress");
+    // Define an array of action details for each type
+    const actions = [
+        { name: "Sent to Boyndie", resultId: "actionCountResult", progressId: "actionCountProgress" },
+        { name: "Reply Sent", resultId: "actionCountResult2", progressId: "actionCountProgress2" },
+        { name: "Sent to Buckley", resultId: "actionCountResult3", progressId: "actionCountProgress3" },
+        { name: "Sent to QA", resultId: "actionCountResult4", progressId: "actionCountProgress4" }
+    ];
 
-    // Make an AJAX request to the server to get the count of "Sent to Boyndie" actions      
-    fetch(`/cmplnt_base/GetActionCount?actionName=Sent to Boyndie`)
-        .then(response => response.json())
-        .then(data => displayActionCount(data))
-        .catch(error => console.error("Error fetching action count:", error));
+    // Loop through each action and make an AJAX request
+    actions.forEach(action => {
+        const actionCountResult = document.getElementById(action.resultId);
+        const actionCountProgress = document.getElementById(action.progressId);
 
-    function displayActionCount(count) {
-        // Update the result div and progress bar with the count
-        actionCountResult.textContent = count.toLocaleString(); // Format the count with commas
-        actionCountProgress.value = count; // Set the progress value to the count
-    }
+        fetch(`/cmplnt_base/GetActionCount?actionName=${action.name}`)
+            .then(response => response.json())
+            .then(data => displayActionCount(data))
+            .catch(error => console.error("Error fetching action count:", error));
+
+        function displayActionCount(count) {
+            actionCountResult.textContent = count.toLocaleString();
+            actionCountProgress.value = count;
+        }
+    });
 });
 
 document.addEventListener("DOMContentLoaded", function () {
-    const actionCountResult = document.getElementById("actionCountResult2");
-    const actionCountProgress = document.getElementById("actionCountProgress2");
+    const categoryCountElement = document.getElementById("categoryCountDiv");
 
-    fetch(`/cmplnt_base/GetActionCount?actionName=Reply Sent`)
+    // Make an AJAX request to the server API to get the product category count
+    fetch("/cmplnt_base/GetProductCatCount")
         .then(response => response.json())
-        .then(data => displayActionCount(data))
-        .catch(error => console.error("Error fetching action count:", error));
-
-    function displayActionCount(count) {
-        actionCountResult.textContent = count.toLocaleString();
-        actionCountProgress.value = count;
-    }
-});
-
-document.addEventListener("DOMContentLoaded", function () {
-    const actionCountResult = document.getElementById("actionCountResult3");
-    const actionCountProgress = document.getElementById("actionCountProgress3");
-
-    fetch(`/cmplnt_base/GetActionCount?actionName=Sent to Buckley`)
-        .then(response => response.json())
-        .then(data => displayActionCount(data))
-        .catch(error => console.error("Error fetching action count:", error));
-
-    function displayActionCount(count) {
-        actionCountResult.textContent = count.toLocaleString();
-        actionCountProgress.value = count;
-    }
-});
-
-document.addEventListener("DOMContentLoaded", function () {
-    const actionCountResult = document.getElementById("actionCountResult4");
-    const actionCountProgress = document.getElementById("actionCountProgress4");
-
-    fetch(`/cmplnt_base/GetActionCount?actionName=Sent to QA`)
-        .then(response => response.json())
-        .then(data => displayActionCount(data))
-        .catch(error => console.error("Error fetching action count:", error));
-
-    function displayActionCount(count) {
-        actionCountResult.textContent = count.toLocaleString();
-        actionCountProgress.value = count;
-    }
+        .then(count => {
+            categoryCountElement.textContent = `Number of Product Categories: ${count}`;
+        })
+        .catch(error => console.error("Error fetching product category count:", error));
 });
 
 function updateComplaintCount() {

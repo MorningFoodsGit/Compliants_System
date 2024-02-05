@@ -27,7 +27,7 @@ namespace WebApplication2.Controllers
           bool? sortComplainantName, string[] filterComplainantName, string[] filterComplainantDescription, string[] filterComplainantRefrence,
           string filterComplainantMF, string[] filterComplainantRetailer, string filterComplainantSite, string[] filterProductDes,
           string[] filterProductCat, string[] filterProductMf, string[] filterCompliantSrc, string[] filterCompliantAction,
-          string filterComplaintCat, int? pageNumber)
+          string filterComplaintCat, int[] filterJulienneCode, int? pageNumber)
         {
             ViewData["CurrentSort"] = sortOrder;
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
@@ -125,6 +125,11 @@ namespace WebApplication2.Controllers
                 .Select(c => c.jlenne_cde)
                 .Distinct()
                 .ToListAsync();
+            ViewBag.FilterCompliantCat = await _context.cmplnt_base
+                .Where(c => c.cmplnt_ctgry != null)
+                .Select(c => c.cmplnt_ctgry)
+                .Distinct()
+                .ToListAsync();
             // Apply filtering based on checkboxes
             if (filterComplainantName != null && filterComplainantName.Length > 0)
             { complaints = complaints.Where(c => filterComplainantName.Contains(c.cstmr_nme)); }
@@ -149,7 +154,7 @@ namespace WebApplication2.Controllers
             if (filterCompliantSrc != null && filterCompliantSrc.Length > 0)
             { complaints = complaints.Where(c => filterCompliantSrc.Contains(c.cmplnt_src)); }
             if (filterCompliantAction != null && filterCompliantAction.Length > 0)
-            { complaints = complaints.Where(c => filterCompliantAction.Contains(c.Actn)); }
+            { complaints = complaints.Where(c => filterCompliantAction.Contains(c.Actn)); }            
 
             switch (sortOrder)
             {
@@ -180,7 +185,7 @@ namespace WebApplication2.Controllers
                     complaints = complaints.Where(c => c.cmplnt_ID != null).OrderByDescending(c => c.cmplnt_ID);
                     break;
             }
-			int pageSize = 20;
+			int pageSize = 15;
             var paginatedCompliants = await PaginatedList<cmplnt_base>.CreateAsync(complaints.AsNoTracking(), pageNumber ?? 1, pageSize);
 			// Retrieve all complaints and store them in ViewBag
 			ViewBag.AllComplaints = await _context.cmplnt_base.ToListAsync();
@@ -190,11 +195,13 @@ namespace WebApplication2.Controllers
 			ViewBag.FilterProductCat = filterProductCat ?? Array.Empty<string>();
 			ViewBag.FilterProductMf = filterProductMf ?? Array.Empty<string>();
 			ViewBag.FilterComplaintCat = filterComplaintCat;
-			ViewBag.FilterQueryString = GetFilterQueryString(searchString, filterComplainantName, filterComplainantSite, filterProductDes, filterProductCat, filterProductMf, filterComplaintCat, filterComplainantRetailer);
+			ViewBag.FilterQueryString = GetFilterQueryString(searchString, filterComplainantName, filterComplainantSite, filterProductDes, filterProductCat,
+                filterProductMf, filterComplaintCat, filterComplainantRetailer, filterCompliantSrc, filterCompliantAction);
 			return View(paginatedCompliants);
         }
 		public string GetFilterQueryString(string searchString, string[] filterComplainantName, string filterComplainantSite,
-            string[] filterProductDes, string[] filterProductCat, string[] filterProductMf, string filterComplaintCat, string[] filterComplainantRetailer)
+            string[] filterProductDes, string[] filterProductCat, string[] filterProductMf, string filterComplaintCat,
+            string[] filterComplainantRetailer, string[] filterCompliantSrc, string[] filterCompliantAction)
 		{
 			string queryString = "";
 			if (!String.IsNullOrEmpty(searchString))
@@ -213,6 +220,8 @@ namespace WebApplication2.Controllers
 			{	queryString += $"&filterProductMf={string.Join(",", filterProductMf)}";	}
 			if (filterComplainantRetailer != null && filterComplainantRetailer.Length > 0)
 			{	queryString += $"&filterComplainantRetailer={string.Join(",", filterComplainantRetailer)}";	}
+			if (filterCompliantSrc != null && filterCompliantSrc.Length > 0)
+			{ queryString += $"&filterComplainantRetailer={string.Join(",", filterCompliantSrc)}"; }
 			if (!String.IsNullOrEmpty(filterComplaintCat))
 			{		queryString += $"&filterComplaintCat={filterComplaintCat}";	}
 			return queryString;
@@ -238,7 +247,6 @@ namespace WebApplication2.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Set the date fields if needed
                 cmplnt_base.tdy_dte = DateTime.Today;
                 _context.Add(cmplnt_base);
                 await _context.SaveChangesAsync();
@@ -304,13 +312,11 @@ namespace WebApplication2.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
         private bool cmplnt_baseExists(int id)
         {
             return (_context.cmplnt_base?.Any(e => e.cmplnt_ID == id)).GetValueOrDefault();
         }
         [HttpGet]
-
         public IActionResult GetActionCount(string actionName)
         {
             int count = _context.cmplnt_base.Count(c => c.Actn == actionName);
@@ -340,8 +346,6 @@ namespace WebApplication2.Controllers
             return Json(retailerQuantities);
         }
 
-
-
         [HttpGet]
         public IActionResult GetRetailerQuantities2()
         {
@@ -364,6 +368,36 @@ namespace WebApplication2.Controllers
         }
         public IActionResult test()
         { return View(); }
+
+        [HttpGet]
+        public IActionResult GetRetailers()
+        {
+            var retailers = _context.cmplnt_base.Select(c => c.rtlr).Distinct().ToList();
+            return Json(retailers);
+        }
+
+        [HttpGet]
+        public IActionResult GetProductCatCount()
+        {
+            int count = _context.cmplnt_base.Select(c => c.prdct_ctgry).Distinct().Count();
+            return Json(count);
+        }
+
+        [HttpGet]
+        public IActionResult GetRetailerCategoryCounts()
+        {
+            var retailerCategoryCounts = _context.cmplnt_base
+                .GroupBy(c => new { c.rtlr, c.prdct_ctgry })
+                .Select(group => new
+                {
+                    Retailer = group.Key.rtlr,
+                    Category = group.Key.prdct_ctgry,
+                    Count = group.Count()
+                })
+                .ToList();
+
+            return Json(retailerCategoryCounts);
+        }
 
     }
 }

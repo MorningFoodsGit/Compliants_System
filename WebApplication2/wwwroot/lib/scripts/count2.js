@@ -11,26 +11,18 @@ document.addEventListener("DOMContentLoaded", function () {
         .catch(error => console.error("Error fetching retailer count:", error));
 });
 
-function updateComplaintCount() {
-    $.ajax({
-        url: '/cmplnt_base/GetTotalComplaintCount',
-        type: 'GET',
-        dataType: 'json',
-        success: function (count) {
-            displayComplaintCount(count);
-        },
-        error: function (error) {
-            console.log('Error:', error);
-        }
-    });
-}
+document.addEventListener("DOMContentLoaded", function () {
+    const categoryCountElement = document.getElementById("categoryCountDiv");
 
-function displayComplaintCount(count) {
-    const countDiv = document.getElementById('complaintCountDiv');
-    if (countDiv) {
-        countDiv.textContent = `Total Complaints in the System: ${count}`;
-    }
-}
+    // Make an AJAX request to the server API to get the product category count
+    fetch("/cmplnt_base/GetProductCatCount")
+        .then(response => response.json())
+        .then(count => {
+            categoryCountElement.textContent = `Number of Product Categories: ${count}`;
+        })
+        .catch(error => console.error("Error fetching product category count:", error));
+});
+
 
 updateComplaintCount();
 
