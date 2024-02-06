@@ -1,5 +1,4 @@
-﻿@model WebApplication2.Models.cmplnt_base
-@{
+﻿@model List<WebApplication2.Models.ViewModels.AnalysisViewModel>
     ViewData["Title"] = "Index";
 }
 <!-- Recent invoice with Statistics -->
@@ -18,7 +17,15 @@
                 <div class="heading-elements">
                     <ul class="list-inline mb-0">
                         <li>
-                           <a class="nav-link active" id="base-tab1" data-toggle="tab" aria-controls="tab1" href="#tab1" aria-expanded="true">Tab 1</a>
+                           <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Retailer</button>
+                        <div class="dropdown-menu">
+                        <a class="dropdown-item"  aria-controls="dropdown2" aria-expanded="true">By order Accending</a>
+                        <a class="dropdown-item"  aria-controls="dropdown2" aria-expanded="true">By order Decending</a>
+                        <a class="dropdown-item"  aria-controls="dropdown2" aria-expanded="true">By order Retailer</a>
+                        <a class="dropdown-item"  aria-controls="dropdown2" aria-expanded="true">By order Site</a>
+                        <a class="dropdown-item"  aria-controls="dropdown2" aria-expanded="true">By order Product Catergory</a>
+                        <a class="dropdown-item"  aria-controls="dropdown2" aria-expanded="true">By order Compliant Catergory</a>
+                        </div>
                         </li>
                         <li>
                             <a data-action="collapse"><i class="icon-minus4"></i></a>
@@ -31,67 +38,30 @@
             </div>
             <div class="card-body collapse in">
                 <div class="card-block">
-                    <p class="card-text"> Number of complaints per product.</p>
-                    <div class="table-responsive">
+                    <p class="card-text"> Number of complaints for each retailer per product category.</p>
+                    <div class="table-responsive" style="max-height: 250px; overflow-y: auto;">
                     <table class="table table-striped mb-0">
                         <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Product</th>
-                                <th>MornFlake</th>
-                                <th>ALDI</th>
-                                <th>LIDL</th>
-                                <th>ASDA</th>
-                                <th>CO-OP</th>
-                                <th>Sainsbury</th>
-                                <th>Tesco</th>
-                            </tr>
+                           <tr>
+                             <th>Retailer</th>
+                            @foreach (var category in Model.Select(x => x.Category).Distinct())
+                            {
+                            <th>@category</th>
+                            }
+                           </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Crisp</td>
-                                <td>21</td>
-                                <td>45</td>
-                                <td>45</td>
-                                <td>45</td>
-                                <td>45</td>
-                                <td>45</td>
-                                <td>45</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Flake</td>
-                                <td>11</td>
-                                <td>12</td>
-                                <td>45</td>
-                                <td>45</td>
-                                <td>45</td>
-                                <td>45</td>
-                                <td>45</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>Granola</td>
-                                <td>34</td>
-                                <td>12</td>
-                                <td>45</td>
-                                <td>45</td>
-                                <td>45</td>
-                                <td>45</td>
-                                <td>45</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>Granola</td>
-                                <td>54</td>
-                                <td>12</td>
-                                <td>45</td>
-                                <td>45</td>
-                                <td>45</td>
-                                <td>45</td>
-                                <td>45</td>
-                            </tr>
+                          @foreach (var retailerGroup in Model.GroupBy(x => x.Retailer))
+                          {
+                         <tr>
+                         <td>@(retailerGroup.Key)</td>
+                         @foreach (var category in Model.Select(x => x.Category).Distinct())
+                          {
+                           var count = retailerGroup.FirstOrDefault(x => x.Category == category)?.Count ?? 0;
+                           <td>@count</td>
+                          }
+                         </tr>
+                          }
                         </tbody>
                     </table>
                 </div>
@@ -99,33 +69,6 @@
                     <p class="card-text"> Visual representation of complaints count.</p>
                     <div class="chart-container">
                         <div id="stacked-bar-chart"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-xs-12">
-        <div class="card">
-            <div class="card-header">
-                <h4 class="card-title">Product Category</h4>
-                <a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
-                <div class="heading-elements">
-                    <ul class="list-inline mb-0">
-                        <li><a data-action="collapse"><i class="icon-minus4"></i></a></li>
-                        <li><a data-action="reload"><i class="icon-reload"></i></a></li>
-                        <li><a data-action="expand"><i class="icon-expand2"></i></a></li>
-                        <li><a data-action="close"><i class="icon-cross2"></i></a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="card-body collapse in">
-                <div class="card-block">
-                    <p class="card-text">A bar chart is a horizontal bar chart rendered in the browser using SVG or VML, whichever is appropriate for the user's browser. Like all google charts, bar charts display tooltips when the user hovers over the data.</p>
-                    <div class="chart-container">
-                        <canvas id="productCategoryChart" width="1000" height="300"></canvas>
                     </div>
                 </div>
             </div>
@@ -170,11 +113,11 @@
     <script>
        google.load('visualization', '1.0', { 'packages': ['corechart'] });
 
-// Set a callback to run when the Google Visualization API is loaded.
-google.setOnLoadCallback(drawBarStacked);
+    // Set a callback to run when the Google Visualization API is loaded.
+    google.setOnLoadCallback(drawBarStacked);
 
-// Callback that creates and populates a data table, instantiates the pie chart, passes in the data and draws it.
-function drawBarStacked() {
+   // Callback that creates and populates a data table, instantiates the pie chart, passes in the data and draws it.
+    function drawBarStacked() {
 
     // Create the data table.
     var data = google.visualization.arrayToDataTable([
@@ -220,7 +163,7 @@ function drawBarStacked() {
     var bar = new google.visualization.BarChart(document.getElementById('stacked-bar-chart'));
     bar.draw(data, options_bar_stacked);
 
-}
+    }
 
 
 // Resize chart
@@ -238,6 +181,7 @@ $(function () {
     }
 });
     </script>
+    
 }
 
 

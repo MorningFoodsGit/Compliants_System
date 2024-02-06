@@ -12,7 +12,7 @@ using WebApplication2.Views.cmplnt_base;
 
 namespace WebApplication2.Controllers
 {
-
+    [Authorize]
     public class cmplnt_baseController : Controller
     {
         private readonly ComplaintsDbContext _context;

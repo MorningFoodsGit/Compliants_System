@@ -1,0 +1,26 @@
+﻿@model List<WebApplication2.Models.ViewModels.AnalysisViewModel>
+
+<table class="table table-striped mb-0">
+    <thead>
+        <tr>
+            <th>#</th>
+            @foreach (var category in Model.Select(x => x.Category).Distinct())
+            {
+                <th>@category</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var retailerGroup in Model.GroupBy(x => x.Retailer))
+        {
+            <tr>
+                <td>@(retailerGroup.Key)</td>
+                @foreach (var category in Model.Select(x => x.Category).Distinct())
+                {
+                    var count = retailerGroup.FirstOrDefault(x => x.Category == category)?.Count ?? 0;
+                    <td>@count</td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>

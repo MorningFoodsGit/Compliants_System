@@ -1,11 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 using WebApplication2.Data;
 using WebApplication2.Models;
-using Microsoft.AspNetCore.Http;
+using WebApplication2.Models.ViewModels;
+
 
 namespace WebApplication2.Controllers
 {
@@ -22,12 +19,17 @@ namespace WebApplication2.Controllers
         // GET: Analysis
         public IActionResult Index()
         {
-            // Replace this with your actual data retrieval logic
-            List<cmplnt_base> cmplnt_baseData = GetComplaintsData();
+            var retailerCategoryCounts = _context.cmplnt_base
+                 .GroupBy(c => new { c.rtlr, c.prdct_ctgry })
+                 .Select(group => new AnalysisViewModel
+                 {
+                     Retailer = group.Key.rtlr,
+                     Category = group.Key.prdct_ctgry,
+                     Count = group.Count()
+                 })
+                 .ToList();
 
-            ViewBag.Complaints = cmplnt_baseData;
-
-            return View();
+            return View(retailerCategoryCounts);
         }
 
         private List<cmplnt_base> GetComplaintsData()
@@ -51,75 +53,49 @@ namespace WebApplication2.Controllers
                 .ToList();
 
             return Json(data);
-        }
+        }       
 
-        // GET: Analysis/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
+		[HttpGet]
+		public IActionResult GetRetailerCategoryCounts()
+		{
+			var retailerCategoryCounts = _context.cmplnt_base
+				.GroupBy(c => new { c.rtlr, c.prdct_ctgry })
+				.Select(group => new
+				{
+					Retailer = group.Key.rtlr,
+					Category = group.Key.prdct_ctgry,
+					Count = group.Count()
+				})
+				.ToList();
 
-        // GET: Analysis/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
+			return View(retailerCategoryCounts);
+		}
 
-        // POST: Analysis/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+		[HttpGet]
+		public IActionResult GetRetailers()
+		{
+			var retailers = _context.cmplnt_base.Select(c => c.rtlr).Distinct().ToList();
+			var viewModel = new AnalysisViewModel
+			{
+				Retailers = retailers
+			};
+			return View(viewModel);
+		}
 
-        // GET: Analysis/Edit/5
-        public ActionResult Edit(int id)
+        [HttpGet]
+        public IActionResult GetRetailerCategoryCount()
         {
-            return View();
-        }
+            var retailerCategoryCounts = _context.cmplnt_base
+                .GroupBy(c => new { c.rtlr, c.prdct_ctgry })
+                .Select(group => new AnalysisViewModel
+                {
+                    Retailer = group.Key.rtlr,
+                    Category = group.Key.prdct_ctgry,
+                    Count = group.Count()
+                })
+                .ToList();
 
-        // POST: Analysis/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Analysis/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Analysis/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            return View(retailerCategoryCounts);
         }
     }
 }
